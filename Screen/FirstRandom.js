@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 
 
-const FirstRandom = ({ navigation }) => {
+const FirstRandom = (props) => {
     const [selectedLocation, setSelectedLocation] = useState('บ้าน');
     const locations = ['บ้าน', 'ที่ทำงาน', 'มหาวิทยาลัยศรีปทุม'];
     const [showDropdown, setShowDropdown] = useState(false);
-    const [data, setdata] = useState([]);
+    console.log(props.route.params.data);
+    const type = props.route.params.data[0];
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
@@ -40,10 +41,14 @@ const FirstRandom = ({ navigation }) => {
                         <TextInput
                             placeholder="🔍 Find for food or restaurant.."
                             style={styles.searchInput}
-                            keyboardShouldPersistTaps="never"
+                            // keyboardShouldPersistTaps="never"
+                            autoCapitalize='none'
+                            clearButtonMode='always'
+                            autoCorrect={false}
+                            keyboardType='default'
                         />
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Home')}>
+                            <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => props.navigation.navigate('Home')}>
                                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                                 <Text style={[styles.buttonText, { color: "grey" }]}>สั่งอาหาร</Text>
                             </TouchableOpacity>
@@ -61,7 +66,7 @@ const FirstRandom = ({ navigation }) => {
                         <Text style={styles.popularButtonTopText}>ประเภทอาหาร</Text>
                     </View>
                     <View style={styles.buttonContainer2}>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => {props.navigation.navigate('Random1', {type}); }}>
                             <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารไทย</Text>

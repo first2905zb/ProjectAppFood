@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Easing } from 'react-native';
 
-const RandomFoodScreen = () => {
+const RandomFoodScreen = (props) => {
   const [randomFood, setRandomFood] = useState({ name: '', image: require('../assets/random1.png') });
   const [showNearbyRestaurants, setShowNearbyRestaurants] = useState(false);
   const [nearbyRestaurants, setNearbyRestaurants] = useState([]);
   const [scaleValue] = useState(new Animated.Value(1));
+
+  console.log(props.route.params.type)
 
   const foodList = [
     { name: 'ข้าวผัด', image: require('../assets/food1.jpg') },

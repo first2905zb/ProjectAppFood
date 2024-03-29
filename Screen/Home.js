@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import {
+  View, Text, TextInput, TouchableOpacity, StyleSheet,
+  ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator
+} from 'react-native';
 
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
@@ -9,9 +12,13 @@ const HomeScreen = ({ navigation }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showViewAllDropdown, setShowViewAllDropdown] = useState(false);
   const viewAllOptions = ['Option 1', 'Option 2', 'Option 3'];
-  const [data, setdata] = useState([]);
+  const [data, setData] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [fullData, setFullData] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     fetch(urlAPI)
       .then(response => {
         if (!response.ok) {
@@ -21,13 +28,32 @@ const HomeScreen = ({ navigation }) => {
       })
       .then(data => {
         console.log('fetch Successful');
-        // console.log(data.result);
-        setdata(data.result);
+        setData(data.result);
+        setFullData(data.result);
+        setIsLoading(false);
       })
       .catch(error => {
         console.error('Fetch error:', error);
       });
   }, []);
+
+  useEffect(() => {
+    const formattedQuery = searchQuery.toLowerCase();
+    const filteredData = fullData.filter(item => contains(item.storeName, formattedQuery));
+    setData(filteredData);
+  }, [searchQuery, fullData]);
+
+  const contains = (storeName, query) => {
+    return storeName.toLowerCase().includes(query);
+  };
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
+        <ActivityIndicator size={'large'} color="#5500dc" />
+      </View>
+    )
+  }
 
   const handleDropdownSelect = (location) => {
     setSelectedLocation(location);
@@ -41,6 +67,10 @@ const HomeScreen = ({ navigation }) => {
   const handleViewAllOptionSelect = (option) => {
     // Handle view all option selection
     setShowViewAllDropdown(false);
+  };
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
   };
 
   return (
@@ -78,14 +108,18 @@ const HomeScreen = ({ navigation }) => {
             <TextInput
               placeholder="🔍 Find for food or restaurant.."
               style={styles.searchInput}
-              keyboardShouldPersistTaps="handle"
+              autoCapitalize='none'
+              clearButtonMode='always'
+              autoCorrect={false}
+              value={searchQuery}
+              onChangeText={(query) => handleSearch(query)}
             />
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.shotcut}>
                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                 <Text style={styles.buttonText}>สั่งอาหาร</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random')}>
+              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => {navigation.navigate('Random', {data}); }}>
                 <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                 <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
               </TouchableOpacity>
@@ -166,7 +200,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     paddingHorizontal: 10,
-    
+
   },
   dropdownText: {
     fontSize: 16,
