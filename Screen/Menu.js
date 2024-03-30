@@ -6,6 +6,7 @@ import { Dropdown } from 'react-native-element-dropdown';
 
 const Menu = (props) => {
   const data = props.route.params.item;
+  console.log(data)
   // console.log(data.storeDetails);
   return (
     <ScrollView>

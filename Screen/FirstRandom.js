@@ -7,7 +7,15 @@ const FirstRandom = (props) => {
     const locations = ['บ้าน', 'ที่ทำงาน', 'มหาวิทยาลัยศรีปทุม'];
     const [showDropdown, setShowDropdown] = useState(false);
     console.log(props.route.params.data);
-    const type = props.route.params.data[0];
+    const type1 = props.route.params.data;
+    // console.log("----------------------------------------------------------------------------------------")
+    // console.log(type1[5])
+    const [type, setType] = useState("");
+
+    const selectType = (type) => {
+        setType(type);
+        props.navigation.navigate("Random1", {type});
+    }
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView
@@ -48,7 +56,7 @@ const FirstRandom = (props) => {
                             keyboardType='default'
                         />
                         <View style={styles.buttonContainer}>
-                            <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => props.navigation.navigate('Home')}>
+                            <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => props.navigation.navigate("Home")}>
                                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                                 <Text style={[styles.buttonText, { color: "grey" }]}>สั่งอาหาร</Text>
                             </TouchableOpacity>
@@ -66,25 +74,25 @@ const FirstRandom = (props) => {
                         <Text style={styles.popularButtonTopText}>ประเภทอาหาร</Text>
                     </View>
                     <View style={styles.buttonContainer2}>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => {props.navigation.navigate('Random1', {type}); }}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[5])}>
                             <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารไทย</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[3])}>
                             <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารญี่ปุ่น</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[4])}>
                             <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: 'gray' }]}>อาหารเกาหลี</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[2])}>
                             <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: 'gray' }]}>อาหารจีน</Text>
@@ -92,13 +100,13 @@ const FirstRandom = (props) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.buttonContainer3}>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[0])}>
                             <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8  }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารตะวันตก</Text>
                             </View>
                         </TouchableOpacity>
-                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => navigation.navigate('Random1')}>
+                        <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType(type1[1])}>
                             <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>เครื่องดื่มและขนม</Text>
