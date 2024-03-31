@@ -1,8 +1,6 @@
 import { ImageBackground, StyleSheet, Text, View, Image, ScrollView, TouchableOpacity } from 'react-native'
 import { ListItem } from '@rneui/themed';
 import React, { useState } from 'react'
-import { BackgroundImage } from '@rneui/base';
-import { Dropdown } from 'react-native-element-dropdown';
 
 const Menu = (props) => {
   const data = props.route.params.item;
@@ -19,7 +17,7 @@ const Menu = (props) => {
       {data.storeDetails.map((item, index) => (
         <ListItem key={index} containerStyle={{ backgroundColor: '#f7e6ff' }}>
           <ListItem.Content style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <TouchableOpacity style={styles.selectMenu} onPress={() => props.navigation.navigate("FoodDetails")}>
+              <TouchableOpacity style={styles.selectMenu} onPress={() => props.navigation.navigate("FoodDetails", {item})}>
                 <ImageBackground source={{ uri: item.image }} style={styles.menuImg} >
                   <View style={styles.price}>
                     <Text style={{fontWeight: "bold", color: "purple"}}>{item.price} B</Text>

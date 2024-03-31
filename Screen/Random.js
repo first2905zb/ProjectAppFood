@@ -21,11 +21,11 @@ const RandomFoodScreen = (props) => {
       }
     }
   }
-
+  console.log(selectStore)
   async function randomFoodHandler() {
     const randomIndex = Math.floor(Math.random() * name.length);
     const randomFoodItem = details[randomIndex];
-    await setRandomFood({ name: name[randomIndex], img: { uri: randomFoodItem.image } });
+    setRandomFood({ name: name[randomIndex], img: { uri: randomFoodItem.image } });
     setShowNearbyRestaurants(true);
     animateButton();
 
