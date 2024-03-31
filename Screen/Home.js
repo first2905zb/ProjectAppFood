@@ -29,6 +29,7 @@ const HomeScreen = ({ navigation }) => {
       .then(data => {
         console.log('fetch Successful');
         setData(data.result);
+        // console.log(data)
         setFullData(data.result);
         setIsLoading(false);
       })

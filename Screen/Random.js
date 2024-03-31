@@ -1,25 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Easing } from 'react-native';
 
 const RandomFoodScreen = (props) => {
   const img1 = require('../assets/random1.png');
-  const [randomFood, setRandomFood] = useState(img1);
+  const [randomFood, setRandomFood] = useState({ name: '', img: img1 });
   const [showNearbyRestaurants, setShowNearbyRestaurants] = useState(false);
   const [scaleValue] = useState(new Animated.Value(1));
-  const data = props.route.params.type;
-  const storeName = props.route.params.type;
-  // console.log(data);
+  const data = props.route.params.types;
+  // console.log("----------------------------------------------------------------------------------------");
+  const details = data.map(item => item.storeDetails).flat();
+  const name = details.map(item => item.name).flat();
+  const deta = data.map(item => item.storeDetails.map(item2 => item2.name));
+  const selectStore = [];
 
-  const randomFoodHandler = () => {
-    const randomIndex = Math.floor(Math.random() * data.length);
-    const randomFoodItem = data[randomIndex];
-    setRandomFood({uri: randomFoodItem.image});
+  for (let i = 0; i < deta.length; i++) {
+    for (let k = 0; k < deta[i].flat().length; k++) {
+      if (deta[i].flat()[k] === randomFood.name) {
+        selectStore.push(data[i]);
+        break;
+      }
+    }
+  }
 
+  async function randomFoodHandler() {
+    const randomIndex = Math.floor(Math.random() * name.length);
+    const randomFoodItem = details[randomIndex];
+    await setRandomFood({ name: name[randomIndex], img: { uri: randomFoodItem.image } });
     setShowNearbyRestaurants(true);
-
     animateButton();
+
   };
-  
+
 
   const animateButton = () => {
     Animated.sequence([
@@ -40,44 +51,43 @@ const RandomFoodScreen = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* <View style={styles.contentContainer}>
+      <View style={styles.contentContainer}>
         <Text style={styles.title}>สุ่มเมนูอาหาร</Text>
         <TouchableOpacity style={styles.randomFoodContainer} onPress={randomFoodHandler}>
           <Animated.View style={[styles.randomFoodContainer, { transform: [{ scale: scaleValue }] }]}>
-            <Image source={randomFood} style={styles.foodImage} />
+            <Image source={randomFood.img} style={styles.foodImage} />
           </Animated.View>
         </TouchableOpacity>
         <Text style={styles.randomFoodText}>{randomFood.name}</Text>
-      </View> */}
+      </View>
 
-    {/* <View>{data.storeName}</View> */}
-    {console.log(data.storeName)}
       {showNearbyRestaurants && (
         <View style={styles.nearbyRestaurantsContainer}>
           <Text style={styles.nearbyRestaurantsTitle}>ร้านอาหารใกล้เคียง</Text>
-          {/* <FlatList
-            data={storeName}
+          <FlatList
+            data={selectStore}
             horizontal renderItem={({ item }) => (
               <TouchableOpacity style={styles.nearbyRestaurantContainer}>
-                <Image source={{uri: item.bgimage}} style={styles.nearbyRestaurantImage} />
+                <Image source={{ uri: item.bgimage }} style={styles.nearbyRestaurantImage} />
                 <Text style={styles.nearbyRestaurantName}>{item.storeName}</Text>
-                <Text style={styles.nearbyRestaurantInfo}>ประเภท: {item.cuisine}</Text>
+                <Text style={styles.nearbyRestaurantInfo}>ประเภท: {item.type}</Text>
                 <Text style={{ color: 'red' }}>ปิด</Text>
               </TouchableOpacity>
             )}
-            keyExtractor={(item, index) => index.toString()}
-            // contentContainerStyle={styles.nearbyRestaurantsList}
-          /> */}
+            keyExtractor={(index) => index.toString()}
+          />
           <Text>{data.name}</Text>
         </View>
       )}
 
-      {/* <TouchableOpacity style={styles.randomButton} onPress={randomFoodHandler}>
+      <TouchableOpacity style={styles.randomButton} onPress={randomFoodHandler}>
         <Text style={styles.buttonText}>สุ่มเมนูอาหารใหม่</Text>
-      </TouchableOpacity> */}
+      </TouchableOpacity>
     </View>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
