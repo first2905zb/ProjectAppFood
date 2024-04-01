@@ -28,7 +28,7 @@ const FirstRandom = (props) => {
 
     // console.log(selectType("western"))
 
-    // selectType("western");
+    // selectType("western");ss
 
     return (
         <SafeAreaView style={styles.container}>

@@ -12,6 +12,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FirstRandom from './Screen/FirstRandom'
 import FoodDetails from './Screen/FoodDetails'
+import Cart from './Screen/Cart'
 
 
 
@@ -27,6 +28,7 @@ const StackHome = () => {
       <Stack.Screen name="Menu" component={Menu} />
       <Stack.Screen name="Finrandom" component={Finrandom} />
       <Stack.Screen name="FoodDetails" component={FoodDetails} />
+      <Stack.Screen name="Cart" component={Cart} />
     </Stack.Navigator>
   )
 }

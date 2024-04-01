@@ -10,10 +10,10 @@ const FoodDetails = (props) => {
         setQuantity(newQuantity);
     };
 
-    console.log(props.route.params.item)
+    // console.log(props.route.params.item)
     const data = props.route.params.item;
 
-    console.log(data)
+    // console.log(data)
 
     const [addonQuantities, setAddonQuantities] = useState({});
 
@@ -74,7 +74,10 @@ const FoodDetails = (props) => {
 
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <TouchableOpacity style={styles.add}>
+                    <TouchableOpacity
+                        style={styles.add}
+                        onPress={() => props.navigation.navigate('Cart', { addonQuantities: addonQuantities, quantity: quantity, data: data })}
+                    >
                         <View style={styles.cart}>
                             <Icon name='shoppingcart' size={30} color={"#6E0387"} />
                         </View>

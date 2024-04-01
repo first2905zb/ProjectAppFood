@@ -4,6 +4,8 @@ import {
   ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
 const HomeScreen = ({ navigation }) => {
@@ -50,7 +52,7 @@ const HomeScreen = ({ navigation }) => {
 
   if (isLoading) {
     return (
-      <View style={{flex: 1, justifyContent:'center', alignItems: 'center'}}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size={'large'} color="#5500dc" />
       </View>
     )
@@ -106,21 +108,29 @@ const HomeScreen = ({ navigation }) => {
 
           <Text style={styles.orderText}>What would you like to order ?</Text>
           <View style={styles.searchContainer}>
-            <TextInput
-              placeholder="🔍 Find for food or restaurant.."
-              style={styles.searchInput}
-              autoCapitalize='none'
-              clearButtonMode='always'
-              autoCorrect={false}
-              value={searchQuery}
-              onChangeText={(query) => handleSearch(query)}
-            />
+            <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+              <TextInput
+                placeholder="🔍 Find for food or restaurant.."
+                style={styles.searchInput}
+                autoCapitalize='none'
+                clearButtonMode='always'
+                autoCorrect={false}
+                value={searchQuery}
+                onChangeText={(query) => handleSearch(query)}
+                width={300}
+              />
+              <View style={{ top: -5, left: -5 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                  <Icon name="shopping-cart" size={45} />
+                </TouchableOpacity>
+              </View>
+            </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.shotcut}>
                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                 <Text style={styles.buttonText}>สั่งอาหาร</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => {navigation.navigate('Random', {data}); }}>
+              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { navigation.navigate('Random', { data }); }}>
                 <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                 <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
               </TouchableOpacity>
