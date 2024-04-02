@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, FlatList, Alert } from 'react-native';
 import React, { useState } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 
@@ -13,16 +13,35 @@ const FoodDetails = (props) => {
     // console.log(props.route.params.item)
     const data = props.route.params.item;
 
-    // console.log(data)
+    const gotoCart = () => {
+        if (quantity > 0) {
+            props.navigation.navigate('Cart', { addonQuantities: addonQuantities, quantity: quantity, data: data })
+        }
+        else {
+            Alert.alert(
+                'ลืมอะไรหรือเปล่าน้าาาาาา!',
+                'โปรดระบุจำนวน!!!!!!!',
+                [
+                    { text: 'OK', onPress: () => console.log('OK Pressed') }
+                ],
+                { cancelable: false }
+            );
+        }
+    }
 
     const [addonQuantities, setAddonQuantities] = useState({});
 
     const handleAddonQuantityChange = (addon, change) => {
         const newQuantities = { ...addonQuantities };
         const currentQuantity = newQuantities[addon] || 0;
-        newQuantities[addon] = Math.max(0, currentQuantity + change);
+        const updatedQuantity = Math.max(0, currentQuantity + change);
+        newQuantities[addon] = updatedQuantity;
+        if (updatedQuantity === 0) {
+            delete newQuantities[addon];
+        }
         setAddonQuantities(newQuantities);
     };
+
 
     return (
         <View style={styles.container}>
@@ -76,7 +95,7 @@ const FoodDetails = (props) => {
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <TouchableOpacity
                         style={styles.add}
-                        onPress={() => props.navigation.navigate('Cart', { addonQuantities: addonQuantities, quantity: quantity, data: data })}
+                        onPress={() => gotoCart()}
                     >
                         <View style={styles.cart}>
                             <Icon name='shoppingcart' size={30} color={"#6E0387"} />

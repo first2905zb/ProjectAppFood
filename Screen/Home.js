@@ -8,9 +8,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = (props) => {
   const [selectedLocation, setSelectedLocation] = useState('บ้าน');
-  const locations = ['บ้าน', 'ที่ทำงาน', 'มหาวิทยาลัยศรีปทุม', 'เพิ่มที่อยู่'];
+  const locations = ['เพิ่มที่อยู่'];
   const [showDropdown, setShowDropdown] = useState(false);
   const [showViewAllDropdown, setShowViewAllDropdown] = useState(false);
   const viewAllOptions = ['Option 1', 'Option 2', 'Option 3'];
@@ -18,6 +18,9 @@ const HomeScreen = ({ navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fullData, setFullData] = useState([]);
+
+  // const loName = props.route.params.addNew.addressName;
+  // console.log(props.route.params);
 
   useEffect(() => {
     setIsLoading(true);
@@ -58,7 +61,19 @@ const HomeScreen = ({ navigation }) => {
     )
   }
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const handleViewAllOptionSelect = (option) => {
+    // Handle view all option selection
+    setShowViewAllDropdown(false);
+  };
+
   const handleDropdownSelect = (location) => {
+    if(location === "เพิ่มที่อยู่"){
+      props.navigation.navigate("Address")
+    }
     setSelectedLocation(location);
     setShowDropdown(false);
   };
@@ -67,14 +82,8 @@ const HomeScreen = ({ navigation }) => {
     setShowViewAllDropdown(!showViewAllDropdown);
   };
 
-  const handleViewAllOptionSelect = (option) => {
-    // Handle view all option selection
-    setShowViewAllDropdown(false);
-  };
 
-  const handleSearch = (query) => {
-    setSearchQuery(query);
-  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -120,7 +129,7 @@ const HomeScreen = ({ navigation }) => {
                 width={300}
               />
               <View style={{ top: -5, left: -5 }}>
-                <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('Cart')}>
                   <Icon name="shopping-cart" size={45} />
                 </TouchableOpacity>
               </View>
@@ -130,7 +139,7 @@ const HomeScreen = ({ navigation }) => {
                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                 <Text style={styles.buttonText}>สั่งอาหาร</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { navigation.navigate('Random', { data }); }}>
+              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { props.navigation.navigate('Random', { data }); }}>
                 <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                 <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
               </TouchableOpacity>
@@ -151,7 +160,7 @@ const HomeScreen = ({ navigation }) => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.popularContainer}>
             {data.map((item, index) => (
-              <TouchableOpacity key={index} style={styles.popularButton} onPress={() => { navigation.navigate('Menu', { item }); }}>
+              <TouchableOpacity key={index} style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
                 <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
                 <Text style={styles.popularButtonText}>{item.storeName}</Text>
                 <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
@@ -205,7 +214,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "#f7e6ff",
     width: 300,
-    borderRadius: 10
+    borderRadius: 10,
+    borderWidth: 0.5
   },
   deliveryText: {
     fontSize: 16,

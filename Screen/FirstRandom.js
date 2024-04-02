@@ -1,34 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const FirstRandom = (props) => {
     const [selectedLocation, setSelectedLocation] = useState('บ้าน');
     const locations = ['บ้าน', 'ที่ทำงาน', 'มหาวิทยาลัยศรีปทุม'];
     const [showDropdown, setShowDropdown] = useState(false);
-    // const [selectType, setSelectType] = useState('');
+    const [searchQuery, setSearchQuery] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [fullData, setFullData] = useState([]);
+    const [data, setData] = useState([]);
     const type1 = props.route.params.data;
-    // console.log(type1)
-
-    // const selectType = type1.filter((t) => t.type === "western")
-    // console.log(selectType);
 
     const selectType = (type) => {
-        // const chooseType = type1.filter(t => t.type === type || t.type === "western");
-        // props.navigation.navigate("Random1", {chooseType});
-        // console.log(chooseType);
         let types = [];
-        for(let i = 0; i < type1.length; i++){
-            if(type1[i].type === type){                    
-                types.push(type1[i])
+        for (let i = 0; i < type1.length; i++) {
+            if (type1[i].type === type) {
+                types = type1[i]
             }
         }
-        props.navigation.navigate("Random1",{types})
+        props.navigation.navigate("Random1", { types })
     }
 
-    // console.log(selectType("western"))
+    useEffect(() => {
+        const formattedQuery = searchQuery.toLowerCase();
+        const filteredData = fullData.filter(item => contains(item.storeName, formattedQuery));
+        setData(filteredData);
+    }, [searchQuery, fullData]);
 
-    // selectType("western");ss
+    const contains = (storeName, query) => {
+        return storeName.toLowerCase().includes(query);
+    };
+
+    if (isLoading) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <ActivityIndicator size={'large'} color="#5500dc" />
+            </View>
+        )
+    }
+
+    const handleSearch = (query) => {
+        setSearchQuery(query);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -49,26 +63,36 @@ const FirstRandom = (props) => {
                     <Text style={styles.dropdownText}>{selectedLocation}</Text>
 
                     {showDropdown && (
-                        <View style={styles.dropdownContainer}>
-                            {locations.map((location, index) => (
-                                <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
-                                    <Text style={styles.dropdownOption}>{location}</Text>
-                                </TouchableOpacity>
-                            ))}
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.dropdownContainer}>
+                                {locations.map((location, index) => (
+                                    <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
+                                        <Text style={styles.dropdownOption}>{location}</Text>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
                         </View>
                     )}
 
                     <Text style={styles.orderText}>What would you like to order ?</Text>
                     <View style={styles.searchContainer}>
-                        <TextInput
-                            placeholder="🔍 Find for food or restaurant.."
-                            style={styles.searchInput}
-                            // keyboardShouldPersistTaps="never"
-                            autoCapitalize='none'
-                            clearButtonMode='always'
-                            autoCorrect={false}
-                            keyboardType='default'
-                        />
+                        {/* <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+                            <TextInput
+                                placeholder="🔍 Find for food or restaurant.."
+                                style={styles.searchInput}
+                                autoCapitalize='none'
+                                clearButtonMode='always'
+                                autoCorrect={false}
+                                value={searchQuery}
+                                onChangeText={(query) => handleSearch(query)}
+                                width={300}
+                            />
+                            <View style={{ top: -5, left: -5 }}>
+                                <TouchableOpacity onPress={() => props.navigation.navigate('Cart')}>
+                                    <Icon name="shopping-cart" size={45} />
+                                </TouchableOpacity>
+                            </View>
+                        </View> */}
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => props.navigation.navigate("Home")}>
                                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
@@ -129,7 +153,7 @@ const FirstRandom = (props) => {
                     </View>
                 </View>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
@@ -155,13 +179,18 @@ const styles = StyleSheet.create({
         marginLeft: 77
     },
     dropdownContainer: {
-        right: 190,
-        backgroundColor: 'white',
         borderRadius: 5,
-        borderWidth: 1,
         borderColor: 'gray',
         zIndex: 1,
-    },
+        position: 'absolute',
+        top: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "#f7e6ff",
+        width: 300,
+        borderRadius: 10,
+        borderWidth: 0.5
+      },
     deliveryText: {
         fontSize: 16,
         fontWeight: 'bold',

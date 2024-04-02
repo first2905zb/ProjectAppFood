@@ -9,6 +9,8 @@ const Cart = (props) => {
     const handleQuantityChange = (change) => {
         const newQuantity = Math.max(0, quantitys + change); // Ensure quantity doesn't go below 0
         setQuantity(newQuantity);
+        // let subtotal = quantitys * data.price;
+        // console.log(subtotal);
     };
 
     const addonArray = Object.entries(addonQuantities).map(([addon, quantity]) => ({ addon, quantity }));
@@ -17,8 +19,23 @@ const Cart = (props) => {
         // Logic to apply the promo code
         console.log('Promo Code Applied:', promoCode);
     };
-    console.log(data)
-    console.log(addonArray)
+    // console.log(data.map(item => item.addon_price))
+    // console.log(addonArray)
+    let addonTotal = [];
+    for (let i = 0; i < addonArray.length; i++) {
+        addonTotal.push(data.addon_price[i] * addonArray[i].quantity);
+    }
+    let addonTotals = 0;
+    for (let i = 0; i < addonTotal.length; i++) {
+        addonTotals += addonTotal[i]
+    }
+    console.log(addonTotals);
+    // console.log(addonArray.length);
+
+    let subtotal = quantitys * data.price + addonTotals;
+    let tax = subtotal * 7 / 100;
+    let total = subtotal + tax + 15;
+    console.log(total);
 
     return (
         <View style={styles.container}>
@@ -36,8 +53,11 @@ const Cart = (props) => {
                                     <FlatList
                                         data={addonArray}
                                         keyExtractor={(item, index) => index.toString()}
-                                        renderItem={({ item }) => (
-                                            <Text style={{ paddingLeft: 8 }}>- {item.addon}: {item.quantity}</Text>
+                                        renderItem={({ item, index }) => (
+                                            <View>
+                                                <Text style={{ paddingLeft: 8 }}>- {item.addon}: {item.quantity} </Text>
+                                                <Text style={{ paddingLeft: 24 }}>- {data.addon_price[index] * item.quantity} B</Text>
+                                            </View>
                                         )}
                                     />
                                 </View>
@@ -63,7 +83,7 @@ const Cart = (props) => {
                         style={styles.input}
                         onChangeText={setPromoCode}
                         value={promoCode}
-                        placeholder="Promo Code"
+                        placeholder="Promo Code..."
                     />
                     <TouchableOpacity style={{ backgroundColor: '#6E0387', width: 65, height: 40, justifyContent: 'center', alignItems: 'center', borderRadius: 15 }}>
                         <Text style={{ color: '#ffffff' }}>Apply</Text>
@@ -74,11 +94,11 @@ const Cart = (props) => {
             <View style={styles.containerConList}>
                 <View style={styles.monList}>
                     <Text style={styles.monListItemText}>Subtotal</Text>
-                    <Text style={styles.monListItemText}>283 Bath</Text>
+                    <Text style={styles.monListItemText}>{subtotal} Bath</Text>
                 </View>
                 <View style={styles.monList}>
                     <Text style={styles.monListItemText}>Tax and Fees</Text>
-                    <Text style={styles.monListItemText}>18 Bath</Text>
+                    <Text style={styles.monListItemText}>{tax} Bath</Text>
                 </View>
                 <View style={styles.monList}>
                     <Text style={styles.monListItemText}>Delivery</Text>
@@ -86,12 +106,12 @@ const Cart = (props) => {
                 </View>
                 <View style={styles.monList}>
                     <Text style={styles.monListItemText}>Total</Text>
-                    <Text style={styles.monListItemText}>316 Bath</Text>
+                    <Text style={styles.monListItemText}>{total} Bath</Text>
                 </View>
             </View>
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                <TouchableOpacity style={{ marginTop: 250, backgroundColor: '#6E0387', width: 250, height: 50, justifyContent: 'center', alignItems: 'center', borderRadius: 15 }}>
-                    <Text style={{color: '#ffffff'}}>CHECKOUT</Text>
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <TouchableOpacity style={styles.checkOut}>
+                    <Text style={{ color: '#ffffff' }}>CHECKOUT</Text>
                 </TouchableOpacity>
             </View>
 
@@ -151,7 +171,8 @@ const styles = StyleSheet.create({
     },
     containerConList: {
         paddingTop: 16,
-        gap: 16
+        gap: 16,
+        marginBottom: 200
     },
     monList: {
         flexDirection: "row",
@@ -164,5 +185,15 @@ const styles = StyleSheet.create({
     monListItemText: {
         fontSize: 16,
         color: "black"
+    },
+    checkOut: {
+        // position: 'fixed',
+        // top: 200, 
+        backgroundColor: '#6E0387', 
+        width: 250, 
+        height: 50,
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        borderRadius: 15
     }
 })

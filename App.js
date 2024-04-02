@@ -13,6 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import FirstRandom from './Screen/FirstRandom'
 import FoodDetails from './Screen/FoodDetails'
 import Cart from './Screen/Cart'
+import NewAddress from './Screen/NewAddress'
 
 
 
@@ -29,6 +30,7 @@ const StackHome = () => {
       <Stack.Screen name="Finrandom" component={Finrandom} />
       <Stack.Screen name="FoodDetails" component={FoodDetails} />
       <Stack.Screen name="Cart" component={Cart} />
+      <Stack.Screen name="Address" component={NewAddress} />
     </Stack.Navigator>
   )
 }

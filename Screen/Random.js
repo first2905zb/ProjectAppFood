@@ -6,6 +6,7 @@ const RandomFoodScreen = (props) => {
   const [randomFood, setRandomFood] = useState({ name: '', img: img1 });
   const [showNearbyRestaurants, setShowNearbyRestaurants] = useState(false);
   const [scaleValue] = useState(new Animated.Value(1));
+  const [showList, setShowList] = useState(false);
   const data = props.route.params.types;
   // console.log("----------------------------------------------------------------------------------------");
   const details = data.map(item => item.storeDetails).flat();
@@ -67,7 +68,7 @@ const RandomFoodScreen = (props) => {
           <FlatList
             data={selectStore}
             horizontal renderItem={({ item }) => (
-              <TouchableOpacity style={styles.nearbyRestaurantContainer}>
+              <TouchableOpacity style={styles.nearbyRestaurantContainer} onPress={() => props.navigation.navigate("Menu", {item})}>
                 <Image source={{ uri: item.bgimage }} style={styles.nearbyRestaurantImage} />
                 <Text style={styles.nearbyRestaurantName}>{item.storeName}</Text>
                 <Text style={styles.nearbyRestaurantInfo}>ประเภท: {item.type}</Text>
