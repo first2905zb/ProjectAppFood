@@ -95,8 +95,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f7f7f7',
     paddingHorizontal: 20,
-    paddingTop: 50,
+    paddingTop: 15,
     paddingBottom: 20,
+    backgroundColor: '#f7e6ff',
   },
   contentContainer: {
     alignItems: 'center',

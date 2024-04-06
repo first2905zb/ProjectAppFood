@@ -125,6 +125,7 @@ export default Cart
 const styles = StyleSheet.create({
     container: {
         margin: 24,
+        backgroundColor: '#f7e6ff',
     },
     img: {
         width: 100,

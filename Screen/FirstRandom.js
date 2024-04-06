@@ -16,7 +16,7 @@ const FirstRandom = (props) => {
         let types = [];
         for (let i = 0; i < type1.length; i++) {
             if (type1[i].type === type) {
-                types = type1[i]
+                types.push(type1[i])
             }
         }
         props.navigation.navigate("Random1", { types })
@@ -113,25 +113,25 @@ const FirstRandom = (props) => {
                     </View>
                     <View style={styles.buttonContainer2}>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("thai")}>
-                            <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/อาหารไทย.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารไทย</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("japan")}>
-                            <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/อาหารญี่ปุ่น.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารญี่ปุ่น</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("korea")}>
-                            <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/อาหารเกาหลี.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: 'gray' }]}>อาหารเกาหลี</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("china")}>
-                            <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/อาหารจีน.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: 'gray' }]}>อาหารจีน</Text>
                             </View>
@@ -139,13 +139,13 @@ const FirstRandom = (props) => {
                     </View>
                     <View style={styles.buttonContainer3}>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("western")}>
-                            <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/อาหารตะวันตก.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>อาหารตะวันตก</Text>
                             </View>
                         </TouchableOpacity>
                         <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => selectType("dessert")}>
-                            <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
+                            <Image source={require('../assets/ขนม.png')} style={styles.buttonImage} />
                             <View style={{ width: 60, top: -8 }}>
                                 <Text style={[styles.buttonText, { color: "grey" }]}>เครื่องดื่มและขนม</Text>
                             </View>
@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
         width: 300,
         borderRadius: 10,
         borderWidth: 0.5
-      },
+    },
     deliveryText: {
         fontSize: 16,
         fontWeight: 'bold',

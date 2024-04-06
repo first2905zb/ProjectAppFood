@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 27,
         paddingHorizontal: 22,
+        backgroundColor: '#f7e6ff',
     },
     quantityButtonSub: {
         // backgroundColor: '#ccc', // Adjust background color as needed
