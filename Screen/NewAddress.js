@@ -1,8 +1,10 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import AddressContext from './AddressContext';
 
 
 const NewAddress = (props) => {
+    const { updateData } = useContext(AddressContext)
     const [addNew, setAddnew] = useState({
         addressName: '', mobileNum: '',
         state: '', city: '', street: ''
@@ -18,39 +20,33 @@ const NewAddress = (props) => {
             addressName: addressName, mobileNum: mobileNum, state: state,
             city: city, street: street
         });
-        props.navigation.navigate('Home',{addNew});
-    }
+        props.navigation.navigate('Home', { addNew });
+    }   
 
     return (
         <View style={styles.container}>
             <View style={styles.head}>
-                <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>Add New address</Text>
+                <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'black' }}>เพิ่มที่อยู่ใหม่</Text>
             </View>
-            <Text style={styles.txt}>Address name</Text>
+            <Text style={styles.txt}>ชื่อที่อยู๋</Text>
             <TextInput
                 style={styles.input}
-                placeholder='e.g. Home, Office School'
+                placeholder='บ้าน, ที่ทำงาน, โรงเรียน'
                 onChangeText={setAddressName}
                 value={addressName}
             />
-            <Text style={styles.txt}>Mobile number</Text>
+            <Text style={styles.txt}>เบอร์โทรศัพท์</Text>
             <TextInput
                 style={styles.input}
-                placeholder='Phone number...'
+                placeholder='หมายเลขโทรศัพท์...'
                 onChangeText={setMobileNum}
                 value={mobileNum}
             />
-            <Text style={styles.txt}>State</Text>
+            <Text style={styles.txt}>ที่อยู่ปัจจุบัน</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={setState}
                 value={state}
-            />
-            <Text style={styles.txt}>City</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setCity}
-                value={city}
             />
             <Text style={styles.txt}>Street(Include house number)</Text>
             <TextInput

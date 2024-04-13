@@ -1,77 +1,92 @@
 import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, KeyboardAvoidingView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
+import CartContext from './CartContext';
 
 const Cart = (props) => {
-    const { addonQuantities, quantity, data } = props.route.params;
-    const [quantitys, setQuantity] = useState(quantity || 0); // Initial quantity
+    // const { addonQuantities, quantity, data } = props.route.params;
     const [promoCode, setPromoCode] = useState('');
+    const { datas } = useContext(CartContext);
+    console.log(datas)
+    console.log(datas[0].addonQuantities)
+    const [subtotal, setSubtotal] = useState(0);
+    const [tax, setTax] = useState(0);
+    const [total, setTotal] = useState(0);
 
-    const handleQuantityChange = (change) => {
-        const newQuantity = Math.max(0, quantitys + change); // Ensure quantity doesn't go below 0
-        setQuantity(newQuantity);
-        // let subtotal = quantitys * data.price;
-        // console.log(subtotal);
-    };
+    useEffect(() => {
+        var mainTotal = 0;
+        var addonsTotal = 0;
+        var subTotal = 0;
+        var taxTotal = 0;
+        var toTal = 0;
 
-    const addonArray = Object.entries(addonQuantities).map(([addon, quantity]) => ({ addon, quantity }));
+        for (let i = 0; i < datas.length; i++) {
+            // Calculate the total price of the main item
+            mainTotal += datas[i].quantity * datas[i].data.price;
 
-    const applyPromoCode = () => {
-        // Logic to apply the promo code
-        console.log('Promo Code Applied:', promoCode);
-    };
-    // console.log(data.map(item => item.addon_price))
-    // console.log(addonArray)
-    let addonTotal = [];
-    for (let i = 0; i < addonArray.length; i++) {
-        addonTotal.push(data.addon_price[i] * addonArray[i].quantity);
-    }
-    let addonTotals = 0;
-    for (let i = 0; i < addonTotal.length; i++) {
-        addonTotals += addonTotal[i]
-    }
-    console.log(addonTotals);
-    // console.log(addonArray.length);
+            // Calculate the total price of addons
+            const addonQuantities = datas[i].addonQuantities;
+            const addons = datas[i].data.addons;
+            for (const addon in addonQuantities) {
+                const quantity = addonQuantities[addon];
+                const addonPrice = addons.find(item => item.name === addon)?.price || 0;
+                addonsTotal += addonPrice * quantity;
+            }
+        }
 
-    let subtotal = quantitys * data.price + addonTotals;
-    let tax = subtotal * 7 / 100;
-    let total = subtotal + tax + 15;
-    console.log(total);
+        // Calculate subtotal and tax
+        subTotal = mainTotal + addonsTotal;
+        taxTotal = subTotal * 7 / 100;
+        toTal = subTotal + taxTotal + 15;
 
+        // Update state variables
+        setSubtotal(subTotal);
+        setTax(taxTotal);
+        setTotal(toTal)
+    
+        // console.log('Main Total:', maintotal);
+        // console.log('Addons Total:', addonstotal);
+        // console.log('Sub Total:', subtotal);
+        // console.log('Tax Total:', tax);
+    
+    }, []);
+    
     return (
         <View style={styles.container}>
             <View style={styles.orderList}>
                 <FlatList
-                    data={[data]}
-                    keyExtractor={(item, index) => item.id}
+                    data={datas}
+                    keyExtractor={(item, index) => index.toString()}
                     renderItem={({ item }) => (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', padding: 8 }}>
+                            {/* <Text>{item.data.name}</Text> */}
                             <View style={{ flexDirection: 'row' }}>
-                                <Image source={{ uri: item.image }} style={styles.img} />
+                                <Image source={{ uri: item.data.image }} style={styles.img} />
                                 <View style={{ padding: 8, justifyContent: 'space-evenly', paddingLeft: 16 }}>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.name}</Text>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#6E0387" }}>{item.price} B</Text>
+                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.data.name}</Text>
+                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#6E0387" }}>{item.data.price} B</Text>
+                                    {/* {console.log(item.addonQuantitie    s)} */}
                                     <FlatList
-                                        data={addonArray}
-                                        keyExtractor={(item, index) => index.toString()}
-                                        renderItem={({ item, index }) => (
-                                            <View>
-                                                <Text style={{ paddingLeft: 8 }}>- {item.addon}: {item.quantity} </Text>
-                                                <Text style={{ paddingLeft: 24 }}>- {data.addon_price[index] * item.quantity} B</Text>
+                                        data={Object.entries(item.addonQuantities)}
+                                        keyExtractor={(addonItem, index) => `${addonItem[0]}_${index}`}
+                                        renderItem={({ item: [addon, quantity] }) => (
+                                            <View key={`${addon}_${quantity}`}>
+                                                <Text style={{ paddingLeft: 8 }}>- {addon}: {quantity} </Text>
+                                                {item.data.addons.map(addonItem => (
+                                                    addonItem.name === addon &&
+                                                    <Text key={`${addonItem.name}_${addonItem.price}`} style={{ paddingLeft: 24 }}>- {addonItem.price} B</Text>
+                                                ))}
                                             </View>
                                         )}
                                     />
+
+
+
                                 </View>
                             </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: 100 }}>
-                                <TouchableOpacity style={styles.quantityButtonSub} onPress={() => handleQuantityChange(-1)}>
-                                    <Text style={{ color: "#6E0387" }}>-</Text>
-                                </TouchableOpacity>
-                                <View>
-                                    <Text>{quantitys}</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: 100 }}>
+                                <View style={styles.quantityButtonAdd} onPress={() => handleQuantityChange(item.data.name, 1)}>
+                                    <Text style={{color: "#ffffff"}}>{item.quantity}</Text>
                                 </View>
-                                <TouchableOpacity style={styles.quantityButtonAdd} onPress={() => handleQuantityChange(1)}>
-                                    <Text style={{ color: '#ffffff' }}>+</Text>
-                                </TouchableOpacity>
                             </View>
                         </View>
                     )}
@@ -124,8 +139,9 @@ export default Cart
 
 const styles = StyleSheet.create({
     container: {
-        margin: 24,
+        padding: 24,
         backgroundColor: '#f7e6ff',
+        flex: 1
     },
     img: {
         width: 100,
@@ -160,6 +176,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5F5F5',
         padding: 10,
+        backgroundColor: '#f7e6ff'
     },
     input: {
         flex: 1,
@@ -173,7 +190,7 @@ const styles = StyleSheet.create({
     containerConList: {
         paddingTop: 16,
         gap: 16,
-        marginBottom: 200
+        marginBottom: 16
     },
     monList: {
         flexDirection: "row",
@@ -190,11 +207,11 @@ const styles = StyleSheet.create({
     checkOut: {
         // position: 'fixed',
         // top: 200, 
-        backgroundColor: '#6E0387', 
-        width: 250, 
+        backgroundColor: '#6E0387',
+        width: 250,
         height: 50,
-        justifyContent: 'center', 
-        alignItems: 'center', 
+        justifyContent: 'center',
+        alignItems: 'center',
         borderRadius: 15
     }
 })

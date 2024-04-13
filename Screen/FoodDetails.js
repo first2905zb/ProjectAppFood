@@ -1,8 +1,10 @@
 import { StyleSheet, Text, View, Image, Button, TouchableOpacity, FlatList, Alert } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
+import CartContext from './CartContext';
 
 const FoodDetails = (props) => {
+    const { updateData } = useContext(CartContext);
     const [quantity, setQuantity] = useState(0); // Initial quantity
 
     const handleQuantityChange = (change) => {
@@ -12,10 +14,12 @@ const FoodDetails = (props) => {
 
     // console.log(props.route.params.item)
     const data = props.route.params.item;
+    // console.log(data.addons);
 
     const gotoCart = () => {
         if (quantity > 0) {
-            props.navigation.navigate('Cart', { addonQuantities: addonQuantities, quantity: quantity, data: data })
+            updateData({ addonQuantities: addonQuantities, quantity: quantity, data: data })
+            props.navigation.navigate('Cart')
         }
         else {
             Alert.alert(
@@ -39,6 +43,7 @@ const FoodDetails = (props) => {
         if (updatedQuantity === 0) {
             delete newQuantities[addon];
         }
+        console.log(newQuantities)
         setAddonQuantities(newQuantities);
     };
 
@@ -71,19 +76,19 @@ const FoodDetails = (props) => {
                     </View>
                     <Text>Choice of Add On</Text>
                     <FlatList
-                        data={data.addon}
+                        data={data.addons}
                         keyExtractor={(item, index) => index.toString()}
                         renderItem={({ item }) => (
                             <View style={{ flexDirection: "row", justifyContent: 'space-between' }}>
-                                <Text style={{ paddingTop: 8, marginBottom: 8 }}>{item}</Text>
+                                <Text style={{ paddingTop: 8, marginBottom: 8 }}>{item.name}</Text>
                                 <View style={{ flexDirection: "row", justifyContent: "space-between", width: 100 }}>
-                                    <TouchableOpacity style={styles.quantityButtonSub} onPress={() => handleAddonQuantityChange(item, -1)}>
+                                    <TouchableOpacity style={styles.quantityButtonSub} onPress={() => handleAddonQuantityChange(item.name, -1)}>
                                         <Text style={{ color: "#6E0387" }}>-</Text>
                                     </TouchableOpacity>
                                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                                        <Text>{addonQuantities[item] || 0}</Text>
+                                        <Text>{addonQuantities[item.name] || 0}</Text>
                                     </View>
-                                    <TouchableOpacity style={styles.quantityButtonAdd} onPress={() => handleAddonQuantityChange(item, 1)}>
+                                    <TouchableOpacity style={styles.quantityButtonAdd} onPress={() => handleAddonQuantityChange(item.name, 1)}>
                                         <Text style={{ color: "#ffffff" }}>+</Text>
                                     </TouchableOpacity>
                                 </View>
