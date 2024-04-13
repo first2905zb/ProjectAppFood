@@ -5,22 +5,18 @@ import AddressContext from './AddressContext';
 
 const NewAddress = (props) => {
     const { updateData } = useContext(AddressContext)
-    const [addNew, setAddnew] = useState({
-        addressName: '', mobileNum: '',
-        state: '', city: '', street: ''
-    });
+
     const [addressName, setAddressName] = useState();
     const [mobileNum, setMobileNum] = useState();
-    const [state, setState] = useState();
-    const [city, setCity] = useState();
-    const [street, setStreet] = useState();
+    const [address1, setAddress1] = useState();
+    const [address2, setAddress2] = useState();
 
     const handleSave = () => {
-        setAddnew({
-            addressName: addressName, mobileNum: mobileNum, state: state,
-            city: city, street: street
+        updateData({
+            addressName: addressName, mobileNum: mobileNum, address1: address1,
+            adrress2: address2
         });
-        props.navigation.navigate('Home', { addNew });
+        props.navigation.navigate('Home');
     }   
 
     return (
@@ -45,15 +41,16 @@ const NewAddress = (props) => {
             <Text style={styles.txt}>ที่อยู่ปัจจุบัน</Text>
             <TextInput
                 style={styles.input}
-                onChangeText={setState}
-                value={state}
+                placeholder='บ้านเลขที่ ซอย ถนน...'
+                onChangeText={setAddress1}
+                value={address1}
             />
             <Text style={styles.txt}>Street(Include house number)</Text>
             <TextInput
                 style={styles.input}
-                placeholder='Street'
-                onChangeText={setStreet}
-                value={street}
+                placeholder='แขวง เขต จังหวัด รหัสไปรษณีย์...'
+                onChangeText={setAddress2}
+                value={address2}
             />
             <View style={{ alignItems: 'center' }}>
                 <TouchableOpacity style={styles.save} onPress={() => handleSave()}>

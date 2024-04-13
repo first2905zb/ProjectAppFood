@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator
+  ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator,
+  FlatList
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AddressContext from './AddressContext';
 
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
@@ -18,6 +20,9 @@ const HomeScreen = (props) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fullData, setFullData] = useState([]);
+  const { datas } = useContext(AddressContext)
+
+  console.log(datas)
 
   // const loName = props.route.params.addNew.addressName;
   // console.log(props.route.params);
@@ -71,7 +76,7 @@ const HomeScreen = (props) => {
   };
 
   const handleDropdownSelect = (location) => {
-    if(location === "เพิ่มที่อยู่"){
+    if (location === "เพิ่มที่อยู่") {
       props.navigation.navigate("Address")
     }
     setSelectedLocation(location);
@@ -106,11 +111,21 @@ const HomeScreen = (props) => {
           {showDropdown && (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <View style={styles.dropdownContainer}>
-                {locations.map((location, index) => (
+                {/* {locations.map((location, index) => (
                   <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
                     <Text style={styles.dropdownOption}>{location}</Text>
                   </TouchableOpacity>
-                ))}
+                ))} */}
+                <FlatList
+                  data={datas}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item }) => (
+                    <Text>{item.addressName}</Text>
+                  )}
+                />
+                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+                  <Text>เพิ่มที่อยู่</Text>
+                </TouchableOpacity>
               </View>
             </View>
           )}

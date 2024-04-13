@@ -6,7 +6,8 @@ export const AddressContextProvider = ({ children }) => {
   const [datas, setDatas] = useState([]);
 
   const updateData = (newData) => {
-    setDatas(newData);
+    setDatas(prev => {
+      return [...prev, newData]});
   };
 
   return (
