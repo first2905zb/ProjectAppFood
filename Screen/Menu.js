@@ -15,9 +15,9 @@ const Menu = (props) => {
         </View>
       </ImageBackground>
       {data.storeDetails.map((item, index) => (
-        <ListItem key={index} containerStyle={{ backgroundColor: '#f7e6ff' }}>
+        <ListItem key={index}>
           <ListItem.Content style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <TouchableOpacity style={styles.selectMenu} onPress={() => props.navigation.navigate("FoodDetails", {item})}>
+              <TouchableOpacity style={styles.selectMenu} onPress={() => props.navigation.navigate("FoodDetails", {item: item, bg: data.bgimage, name: data.storeName})}>
                 <ImageBackground source={{ uri: item.image }} style={styles.menuImg} >
                   <View style={styles.price}>
                     <Text style={{fontWeight: "bold", color: "purple"}}>{item.price} B</Text>

@@ -1,11 +1,14 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from 'react-native';
+import OrderContext from './OrderContext';
 
 const OrderHistoryScreen = () => {
+  const { datasOrder } = useContext(OrderContext)
+  console.log(datasOrder);
   return (
     <View style={styles.container}>
       <Text style={styles.header}>My Order</Text>
-      <View style={{justifyContent:'center',alignItems: 'center'}}>
+      <View style={{ justifyContent: 'center', alignItems: 'center' }}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={[styles.button, styles.upcomingButton]}>
             <Text style={[styles.buttonText, styles.boldText]}>Upcoming</Text>
@@ -15,30 +18,30 @@ const OrderHistoryScreen = () => {
           </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.orderInfoContainer}>
-        <Text style={styles.restaurantName}>Starbuck</Text>
-        <Text style={styles.deliveryTime}>Delivery Time: 12:00 PM</Text>
-        <View style={styles.actionButtonContainer}>
-          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'white' }]}>
-            <Text style={[styles.actionButtonText, styles.boldText, styles.cancelText]}>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'purple' }]}>
-            <Text style={[styles.actionButtonText, styles.boldText]}>Track Order</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.orderInfoContainer}>
-        <Text style={styles.restaurantName}>Subway</Text>
-        <Text style={styles.deliveryTime}>Delivery Time: 1:00 PM</Text>
-        <View style={styles.actionButtonContainer}>
-          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'white' }]}>
-            <Text style={[styles.actionButtonText, styles.boldText, styles.cancelText]}>Cancel</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'purple' }]}>
-            <Text style={[styles.actionButtonText, styles.boldText]}>Track Order</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      <FlatList
+        data={datasOrder}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.orderInfoContainer}>
+            <View style={{ flexDirection: 'row' }}>
+              <Image source={{ uri: item.bg }} style={{ width: 60, height: 60, borderRadius: 10, marginRight: 8 }} />
+              <View>
+                <Text style={styles.restaurantName}>{item.name}</Text>
+                <Text style={styles.deliveryTime}>Delivery Time: 12:00 PM</Text>
+              </View>
+              <Text>{item.price}</Text>
+            </View>
+            <View style={styles.actionButtonContainer}>
+              <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'white' }]}>
+                <Text style={[styles.actionButtonText, styles.boldText, styles.cancelText]}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={[styles.actionButton, { backgroundColor: 'purple' }]}>
+                <Text style={[styles.actionButtonText, styles.boldText]}>Track Order</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+      />
     </View>
   );
 };
@@ -49,7 +52,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     paddingHorizontal: 20,
     paddingTop: 50,
-    backgroundColor: '#f7e6ff',
   },
   header: {
     textAlign: 'center',
@@ -59,13 +61,13 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-evenly', // เปลี่ยนจาก 'center' เป็น 'space-between'
-    alignItems: 'center', // เพิ่มบรรทัดนี้
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
     width: 240,
     marginVertical: 20,
     borderWidth: 1,
     borderRadius: 100,
-    paddingHorizontal: 10, // เพิ่มบรรทัดนี้
+    paddingHorizontal: 10,
   },
   button: {
     padding: 10,
@@ -93,8 +95,8 @@ const styles = StyleSheet.create({
     color: 'purple',
   },
   cancelText: {
-    color: 'purple', // เปลี่ยนเป็นสีม่วง
-    fontWeight: 'bold', // เพิ่ม fontWeight เป็น bold
+    color: 'purple',
+    fontWeight: 'bold',
   },
   orderInfoContainer: {
     borderWidth: 1,

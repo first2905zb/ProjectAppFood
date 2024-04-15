@@ -1,35 +1,34 @@
-import { StyleSheet, Text, View, Image, Button, TouchableOpacity, FlatList, Alert } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TouchableOpacity, FlatList, Alert, Modal } from 'react-native';
 import React, { useState, useContext } from 'react';
 import Icon from 'react-native-vector-icons/AntDesign';
 import CartContext from './CartContext';
 
 const FoodDetails = (props) => {
     const { updateData } = useContext(CartContext);
-    const [quantity, setQuantity] = useState(0); // Initial quantity
+    const [quantity, setQuantity] = useState(0);
+    const [isModalVisible, setIsModalVisible] = useState(false)
 
     const handleQuantityChange = (change) => {
-        const newQuantity = Math.max(0, quantity + change); // Ensure quantity doesn't go below 0
+        const newQuantity = Math.max(0, quantity + change);
         setQuantity(newQuantity);
     };
 
     // console.log(props.route.params.item)
     const data = props.route.params.item;
-    // console.log(data.addons);
+    console.log(props.route.params.name)
 
+    const nameNBg = { name: props.route.params.name, bg: props.route.params.bg };
+    // console.log(data.addons);
+    const closeModal = () => {
+        setIsModalVisible(false);
+    }
     const gotoCart = () => {
         if (quantity > 0) {
             updateData({ addonQuantities: addonQuantities, quantity: quantity, data: data })
-            props.navigation.navigate('Cart')
+            props.navigation.navigate('Cart', { nameNBg })
         }
         else {
-            Alert.alert(
-                'ลืมอะไรหรือเปล่าน้าาาาาา!',
-                'โปรดระบุจำนวน!!!!!!!',
-                [
-                    { text: 'OK', onPress: () => console.log('OK Pressed') }
-                ],
-                { cancelable: false }
-            );
+                setIsModalVisible(true);
         }
     }
 
@@ -109,7 +108,20 @@ const FoodDetails = (props) => {
                     </TouchableOpacity>
                 </View>
             </View>
-        </View>
+            <Modal
+                visible={isModalVisible}
+                transparent={true}
+            >
+                <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }} onPress={closeModal}>
+                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: '#000' }}>ฮั่นแน่!!! ลืมใส่จำนวนนะ</Text>
+                        <TouchableOpacity style={{ backgroundColor: '#6E0387', padding: 10, borderRadius: 5 }} onPress={closeModal}>
+                            <Text style={{ color: 'white', textAlign: 'center' }}>OK</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
+        </View >
     );
 };
 
@@ -120,7 +132,7 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 27,
         paddingHorizontal: 22,
-        backgroundColor: '#f7e6ff',
+        // backgroundColor: '#f7e6ff',
     },
     quantityButtonSub: {
         // backgroundColor: '#ccc', // Adjust background color as needed

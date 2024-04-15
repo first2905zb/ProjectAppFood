@@ -11,8 +11,8 @@ import AddressContext from './AddressContext';
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
 const HomeScreen = (props) => {
-  const [selectedLocation, setSelectedLocation] = useState('บ้าน');
-  const locations = ['เพิ่มที่อยู่'];
+  // const [selectedLocation, setSelectedLocation] = useState('บ้าน');
+  const [locations, setLocations] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showViewAllDropdown, setShowViewAllDropdown] = useState(false);
   const viewAllOptions = ['Option 1', 'Option 2', 'Option 3'];
@@ -76,10 +76,7 @@ const HomeScreen = (props) => {
   };
 
   const handleDropdownSelect = (location) => {
-    if (location === "เพิ่มที่อยู่") {
-      props.navigation.navigate("Address")
-    }
-    setSelectedLocation(location);
+    setLocations(location);
     setShowDropdown(false);
   };
 
@@ -102,11 +99,11 @@ const HomeScreen = (props) => {
             <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
               <Text style={styles.deliveryText}>Delivery to ▼</Text>
             </TouchableOpacity>
-            <View style={styles.profileContainer}>
+            <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
               <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
-            </View>
+            </TouchableOpacity>
           </View>
-          <Text style={styles.dropdownText}>{selectedLocation}</Text>
+          <Text style={styles.dropdownText}>{locations}</Text>
 
           {showDropdown && (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -120,7 +117,9 @@ const HomeScreen = (props) => {
                   data={datas}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item }) => (
-                    <Text>{item.addressName}</Text>
+                    <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
+                      <Text>{item.addressName}</Text>
+                    </TouchableOpacity>
                   )}
                 />
                 <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
@@ -154,7 +153,7 @@ const HomeScreen = (props) => {
                 <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
                 <Text style={styles.buttonText}>สั่งอาหาร</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { props.navigation.navigate('Random', { data }); }}>
+              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { props.navigation.navigate('Random', { data, locations }); }}>
                 <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
                 <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
               </TouchableOpacity>
@@ -203,7 +202,7 @@ const HomeScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f7e6ff',
+    // backgroundColor: '#f7e6ff',
   },
   content: {
     flex: 1,

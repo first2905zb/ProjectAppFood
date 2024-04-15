@@ -1,16 +1,34 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Button, KeyboardAvoidingView } from 'react-native'
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import CartContext from './CartContext';
+import OrderContext from './OrderContext';
 
 const Cart = (props) => {
     // const { addonQuantities, quantity, data } = props.route.params;
     const [promoCode, setPromoCode] = useState('');
-    const { datas } = useContext(CartContext);
-    console.log(datas)
-    console.log(datas[0].addonQuantities)
+    const { datas, clearData } = useContext(CartContext);
+    // console.log(datas)
+    // console.log(datas[0].addonQuantities)
     const [subtotal, setSubtotal] = useState(0);
     const [tax, setTax] = useState(0);
     const [total, setTotal] = useState(0);
+    const { updateDataOrder } = useContext(OrderContext)
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    // console.log(props.route.params.nameNBg);
+    const nameNBg = props.route.params.nameNBg;
+
+    const checkOut = () => {
+        updateDataOrder(nameNBg)
+        setIsModalVisible(true);
+        // props.navigation.navigate('Home')
+    }
+
+    const closeModal = () => {
+        setIsModalVisible(false); // Close the modal
+        clearData();
+        props.navigation.navigate('Home'); // Navigate to Home screen
+    };
 
     useEffect(() => {
         var mainTotal = 0;
@@ -42,14 +60,14 @@ const Cart = (props) => {
         setSubtotal(subTotal);
         setTax(taxTotal);
         setTotal(toTal)
-    
+
         // console.log('Main Total:', maintotal);
         // console.log('Addons Total:', addonstotal);
         // console.log('Sub Total:', subtotal);
         // console.log('Tax Total:', tax);
-    
+
     }, []);
-    
+
     return (
         <View style={styles.container}>
             <View style={styles.orderList}>
@@ -78,14 +96,11 @@ const Cart = (props) => {
                                             </View>
                                         )}
                                     />
-
-
-
                                 </View>
                             </View>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: 100 }}>
                                 <View style={styles.quantityButtonAdd} onPress={() => handleQuantityChange(item.data.name, 1)}>
-                                    <Text style={{color: "#ffffff"}}>{item.quantity}</Text>
+                                    <Text style={{ color: "#ffffff" }}>{item.quantity}</Text>
                                 </View>
                             </View>
                         </View>
@@ -125,10 +140,23 @@ const Cart = (props) => {
                 </View>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                <TouchableOpacity style={styles.checkOut}>
+                <TouchableOpacity style={styles.checkOut} onPress={() => checkOut()}>
                     <Text style={{ color: '#ffffff' }}>CHECKOUT</Text>
                 </TouchableOpacity>
             </View>
+            <Modal
+                visible={isModalVisible}
+                transparent={true}
+            >
+                <TouchableOpacity style={{ flex: 1, backgroundColor: 'rgba(0, 0, 0, 0.5)', justifyContent: 'center', alignItems: 'center' }} onPress={closeModal}>
+                    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
+                        <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 10, color: '#000' }}>สั่งซื้อเรียบร้อย</Text>
+                        <TouchableOpacity style={{ backgroundColor: '#6E0387', padding: 10, borderRadius: 5 }} onPress={closeModal}>
+                            <Text style={{ color: 'white', textAlign: 'center' }}>OK</Text>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
+            </Modal>
 
         </View>
     );
@@ -140,7 +168,7 @@ export default Cart
 const styles = StyleSheet.create({
     container: {
         padding: 24,
-        backgroundColor: '#f7e6ff',
+        // backgroundColor: '#f7e6ff',
         flex: 1
     },
     img: {
@@ -176,7 +204,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#F5F5F5',
         padding: 10,
-        backgroundColor: '#f7e6ff'
+        // backgroundColor: '#f7e6ff'
     },
     input: {
         flex: 1,

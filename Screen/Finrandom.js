@@ -22,7 +22,7 @@ const RestaurantScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.restaurantInfo}>
-        <Image 
+        <Image
           source={require('../assets/profile.jpg')}
           style={styles.restaurantImage}
           resizeMode="cover"
@@ -33,18 +33,18 @@ const RestaurantScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.menuContainer}>
-        <MenuBox 
-          image={require('../assets/profile.jpg')} 
-          title="เมนูที่ 1" 
-          description="รายละเอียดเมนูที่ 1" 
-          price="150 บาท" 
+        <MenuBox
+          image={require('../assets/profile.jpg')}
+          title="เมนูที่ 1"
+          description="รายละเอียดเมนูที่ 1"
+          price="150 บาท"
           onPress={() => navigation.navigate('MenuDetail', { menuItemId: 1 })}
         />
-        <MenuBox 
-          image={require('../assets/profile.jpg')} 
-          title="เมนูที่ 2" 
-          description="รายละเอียดเมนูที่ 2" 
-          price="200 บาท" 
+        <MenuBox
+          image={require('../assets/profile.jpg')}
+          title="เมนูที่ 2"
+          description="รายละเอียดเมนูที่ 2"
+          price="200 บาท"
           onPress={() => navigation.navigate('MenuDetail', { menuItemId: 2 })}
         />
       </View>

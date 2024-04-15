@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, SafeAreaView, Image, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ImageBackground, 
+    SafeAreaView, Image, KeyboardAvoidingView, Platform, FlatList } from 'react-native';
+import AddressContext from './AddressContext';
 
 const FirstRandom = (props) => {
-    const [selectedLocation, setSelectedLocation] = useState('บ้าน');
-    const locations = ['บ้าน', 'ที่ทำงาน', 'มหาวิทยาลัยศรีปทุม'];
+    const { datas } = useContext(AddressContext);
+    // const [selectedLocation, setSelectedLocation] = useState('บ้าน');
+    const [locations, setLocations] = useState(props.route.params.locations);
     const [showDropdown, setShowDropdown] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [fullData, setFullData] = useState([]);
-    const [data, setData] = useState([]);
     const type1 = props.route.params.data;
+
+
 
     const selectType = (type) => {
         let types = [];
@@ -21,27 +21,9 @@ const FirstRandom = (props) => {
         }
         props.navigation.navigate("Random1", { types })
     }
-
-    useEffect(() => {
-        const formattedQuery = searchQuery.toLowerCase();
-        const filteredData = fullData.filter(item => contains(item.storeName, formattedQuery));
-        setData(filteredData);
-    }, [searchQuery, fullData]);
-
-    const contains = (storeName, query) => {
-        return storeName.toLowerCase().includes(query);
-    };
-
-    if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <ActivityIndicator size={'large'} color="#5500dc" />
-            </View>
-        )
-    }
-
-    const handleSearch = (query) => {
-        setSearchQuery(query);
+    const handleDropdownSelect = (location) => {
+        setLocations(location);
+        setShowDropdown(false);
     };
 
     return (
@@ -56,20 +38,44 @@ const FirstRandom = (props) => {
                         <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
                             <Text style={styles.deliveryText}>Delivery to ▼</Text>
                         </TouchableOpacity>
-                        <View style={styles.profileContainer}>
+                        <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
                             <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
-                    <Text style={styles.dropdownText}>{selectedLocation}</Text>
+                    <Text style={styles.dropdownText}>{locations}</Text>
 
                     {showDropdown && (
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.dropdownContainer}>
-                                {locations.map((location, index) => (
-                                    <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
-                                        <Text style={styles.dropdownOption}>{location}</Text>
-                                    </TouchableOpacity>
-                                ))}
+                                <FlatList
+                                    data={datas}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
+                                            <Text>{item.addressName}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+                                    <Text>เพิ่มที่อยู่</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}{showDropdown && (
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.dropdownContainer}>
+                                <FlatList
+                                    data={datas}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    renderItem={({ item }) => (
+                                        <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
+                                            <Text>{item.addressName}</Text>
+                                        </TouchableOpacity>
+                                    )}
+                                />
+                                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+                                    <Text>เพิ่มที่อยู่</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     )}
@@ -162,7 +168,7 @@ export default FirstRandom
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f7e6ff',
+        // backgroundColor: '#f7e6ff',
     },
     content: {
         flex: 1,
