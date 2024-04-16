@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Easing } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Image, FlatList, Animated, Easing, ImageBackground } from 'react-native';
+import AddressContext from './AddressContext';
 
 const RandomFoodScreen = (props) => {
   const img1 = require('../assets/random1.png');
@@ -7,12 +8,22 @@ const RandomFoodScreen = (props) => {
   const [showNearbyRestaurants, setShowNearbyRestaurants] = useState(false);
   const [scaleValue] = useState(new Animated.Value(1));
   const [showList, setShowList] = useState(false);
+  const [locations, setLocations] = useState();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const { datas } = useContext(AddressContext);
   const data = props.route.params.types;
+  const type = data.map(item => item.type)
+  console.log(type)
   // console.log("----------------------------------------------------------------------------------------");
   const details = data.map(item => item.storeDetails).flat();
   const name = details.map(item => item.name).flat();
   const deta = data.map(item => item.storeDetails.map(item2 => item2.name));
   const selectStore = [];
+
+const handleDropdownSelect = (location) => {
+    setLocations(location);
+    setShowDropdown(false);
+};
 
   for (let i = 0; i < deta.length; i++) {
     for (let k = 0; k < deta[i].flat().length; k++) {
@@ -22,7 +33,7 @@ const RandomFoodScreen = (props) => {
       }
     }
   }
-  console.log(selectStore)
+  // console.log(selectStore)
   async function randomFoodHandler() {
     const randomIndex = Math.floor(Math.random() * name.length);
     const randomFoodItem = details[randomIndex];
@@ -52,8 +63,45 @@ const RandomFoodScreen = (props) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
+          <Text style={styles.deliveryText}>Delivery to ▼</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
+          <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
+        </TouchableOpacity>
+      </View>
+
+      {showDropdown && (
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <View style={styles.dropdownContainer}>
+                {/* {locations.map((location, index) => (
+                  <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
+                    <Text style={styles.dropdownOption}>{location}</Text>
+                  </TouchableOpacity>
+                ))} */}
+                <FlatList
+                  data={datas}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
+                      <Text>{item.addressName}</Text>
+                    </TouchableOpacity>
+                  )}
+                />
+                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+                  <Text>เพิ่มที่อยู่</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+
+      <Text style={styles.dropdownText}>{locations}</Text>
       <View style={styles.contentContainer}>
-        <Text style={styles.title}>สุ่มเมนูอาหาร</Text>
+        <View style={styles.conTitle}>
+          <Text style={styles.title}>วันนี้กินไรดี?</Text>
+          <Text style={[styles.title, { marginBottom: 16 }]}>หมวดหมู่ อาหาร {type}</Text>
+        </View>
         <TouchableOpacity style={styles.randomFoodContainer} onPress={randomFoodHandler}>
           <Animated.View style={[styles.randomFoodContainer, { transform: [{ scale: scaleValue }] }]}>
             <Image source={randomFood.img} style={styles.foodImage} />
@@ -68,7 +116,7 @@ const RandomFoodScreen = (props) => {
           <FlatList
             data={selectStore}
             horizontal renderItem={({ item }) => (
-              <TouchableOpacity style={styles.nearbyRestaurantContainer} onPress={() => props.navigation.navigate("Menu", {item})}>
+              <TouchableOpacity style={styles.nearbyRestaurantContainer} onPress={() => props.navigation.navigate("Menu", { item })}>
                 <Image source={{ uri: item.bgimage }} style={styles.nearbyRestaurantImage} />
                 <Text style={styles.nearbyRestaurantName}>{item.storeName}</Text>
                 <Text style={styles.nearbyRestaurantInfo}>ประเภท: {item.type}</Text>
@@ -99,19 +147,26 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     // backgroundColor: '#f7e6ff',
   },
+  conTitle: {
+    paddingTop: 10,
+    paddingBottom: 25,
+    marginLeft: -80,
+  },
   contentContainer: {
     alignItems: 'center',
     marginBottom: 20,
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
+    fontSize: 30,
+    // fontWeight: 'bold',
+    marginBottom: -8,
     color: '#333',
   },
   randomFoodContainer: {
     position: 'relative',
-    width: '100%',
+    width: 300,
+    backgroundColor: '#f7e6ff',
+    borderRadius: 500,
     height: 300,
     marginBottom: 20,
   },
@@ -163,7 +218,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   randomButton: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#6E0387',
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 25,
@@ -174,6 +229,39 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: 'bold',
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: "flex-end",
+    paddingTop: 15
+  },
+  profileContainer: {
+    borderRadius: 50,
+    overflow: 'hidden',
+    marginLeft: 77
+  },
+  dropdownContainer: {
+    borderRadius: 5,
+    borderColor: 'gray',
+    zIndex: 1,
+    position: 'absolute',
+    top: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // backgroundColor: "#f7e6ff",
+    width: 300,
+    borderRadius: 10,
+    borderWidth: 0.5
+  },
+  profileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  deliveryText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    paddingHorizontal: 10,
   },
 });
 

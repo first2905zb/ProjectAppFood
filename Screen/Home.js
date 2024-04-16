@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
     top: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: "#f7e6ff",
+    // backgroundColor: "#f7e6ff",
     width: 300,
     borderRadius: 10,
     borderWidth: 0.5
@@ -235,7 +235,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     paddingHorizontal: 10,
-
   },
   dropdownText: {
     fontSize: 16,
