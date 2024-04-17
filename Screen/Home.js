@@ -15,14 +15,14 @@ const HomeScreen = (props) => {
   const [locations, setLocations] = useState();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showViewAllDropdown, setShowViewAllDropdown] = useState(false);
-  const viewAllOptions = ['Option 1', 'Option 2', 'Option 3'];
+  // const viewAllOptions = ['Option 1', 'Option 2', 'Option 3'];
   const [data, setData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [fullData, setFullData] = useState([]);
   const { datas } = useContext(AddressContext)
 
-  console.log(datas)
+  // console.log(datas)
 
   // const loName = props.route.params.addNew.addressName;
   // console.log(props.route.params);
@@ -70,22 +70,10 @@ const HomeScreen = (props) => {
     setSearchQuery(query);
   };
 
-  const handleViewAllOptionSelect = (option) => {
-    // Handle view all option selection
-    setShowViewAllDropdown(false);
-  };
-
   const handleDropdownSelect = (location) => {
     setLocations(location);
     setShowDropdown(false);
   };
-
-  const handleViewAllPress = () => {
-    setShowViewAllDropdown(!showViewAllDropdown);
-  };
-
-
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -108,22 +96,17 @@ const HomeScreen = (props) => {
           {showDropdown && (
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <View style={styles.dropdownContainer}>
-                {/* {locations.map((location, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
-                    <Text style={styles.dropdownOption}>{location}</Text>
-                  </TouchableOpacity>
-                ))} */}
                 <FlatList
                   data={datas}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={({ item }) => (
                     <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
-                      <Text>{item.addressName}</Text>
+                      <Text style={{color: "#000"}}>{item.addressName}</Text>
                     </TouchableOpacity>
                   )}
                 />
                 <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
-                  <Text>เพิ่มที่อยู่</Text>
+                  <Text style={{color: "#000"}}>เพิ่มที่อยู่</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -133,7 +116,7 @@ const HomeScreen = (props) => {
           <View style={styles.searchContainer}>
             <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
               <TextInput
-                placeholder="🔍 Find for food or restaurant.."
+                placeholder="🔍 ค้าหาร้านค้า..."
                 style={styles.searchInput}
                 autoCapitalize='none'
                 clearButtonMode='always'
@@ -165,7 +148,7 @@ const HomeScreen = (props) => {
           </View>
           <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
             <Text style={styles.popularButtonTopText}>ร้านยอดนิยม</Text>
-            <TouchableOpacity onPress={() => handleViewAllPress()}>
+            <TouchableOpacity onPress={() => props.navigation.navigate('ร้านค้า', { data, locations })}>
               <Text style={styles.viewAllText}>View All ▼</Text>
             </TouchableOpacity>
           </View>
@@ -179,17 +162,6 @@ const HomeScreen = (props) => {
                 <Text style={styles.popularButtonText}>{item.storeName}</Text>
                 <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
                 <Text style={styles.popularSubText}>{item.storeName}</Text>
-                <View style={styles.viewAllDropdown}>
-                  {showViewAllDropdown && (
-                    <View style={styles.dropdownContainer}>
-                      {viewAllOptions.map((option, index) => (
-                        <TouchableOpacity key={index} onPress={() => handleViewAllOptionSelect(option)}>
-                          <Text style={styles.dropdownOption}>{option}</Text>
-                        </TouchableOpacity>
-                      ))}
-                    </View>
-                  )}
-                </View>
               </TouchableOpacity>
             ))}
           </ScrollView>
@@ -202,7 +174,6 @@ const HomeScreen = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: '#f7e6ff',
   },
   content: {
     flex: 1,
@@ -223,11 +194,9 @@ const styles = StyleSheet.create({
     borderColor: 'gray',
     zIndex: 1,
     position: 'absolute',
-    top: 0,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: "#f7e6ff",
-    width: 300,
+    width: 220,
     borderRadius: 10,
     borderWidth: 0.5
   },

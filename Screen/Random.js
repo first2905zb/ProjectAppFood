@@ -63,44 +63,10 @@ const handleDropdownSelect = (location) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-          <Text style={styles.deliveryText}>Delivery to ▼</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
-          <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
-        </TouchableOpacity>
-      </View>
-
-      {showDropdown && (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <View style={styles.dropdownContainer}>
-                {/* {locations.map((location, index) => (
-                  <TouchableOpacity key={index} onPress={() => handleDropdownSelect(location)}>
-                    <Text style={styles.dropdownOption}>{location}</Text>
-                  </TouchableOpacity>
-                ))} */}
-                <FlatList
-                  data={datas}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
-                      <Text>{item.addressName}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
-                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
-                  <Text>เพิ่มที่อยู่</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-
       <Text style={styles.dropdownText}>{locations}</Text>
       <View style={styles.contentContainer}>
         <View style={styles.conTitle}>
           <Text style={styles.title}>วันนี้กินไรดี?</Text>
-          <Text style={[styles.title, { marginBottom: 16 }]}>หมวดหมู่ อาหาร {type}</Text>
         </View>
         <TouchableOpacity style={styles.randomFoodContainer} onPress={randomFoodHandler}>
           <Animated.View style={[styles.randomFoodContainer, { transform: [{ scale: scaleValue }] }]}>
@@ -123,7 +89,7 @@ const handleDropdownSelect = (location) => {
                 <Text style={{ color: 'red' }}>ปิด</Text>
               </TouchableOpacity>
             )}
-            keyExtractor={(index) => index.toString()}
+            keyExtractor={(item) => item.storeName}
           />
           <Text>{data.name}</Text>
         </View>
@@ -143,14 +109,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f7f7f7',
     paddingHorizontal: 20,
-    paddingTop: 15,
+    // paddingTop: 15,
     paddingBottom: 20,
     // backgroundColor: '#f7e6ff',
   },
   conTitle: {
     paddingTop: 10,
     paddingBottom: 25,
-    marginLeft: -80,
+    marginVertical: 20,
   },
   contentContainer: {
     alignItems: 'center',

@@ -16,7 +16,10 @@ const Cart = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     // console.log(props.route.params.nameNBg);
-    const nameNBg = props.route.params.nameNBg;
+    let nameNBg = '';
+    if (props.route.params != undefined || props.route.params != null) {
+        nameNBg = props.route.params.nameNBg;
+    }
 
     const checkOut = () => {
         updateDataOrder(nameNBg)

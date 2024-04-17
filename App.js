@@ -19,6 +19,7 @@ import { AddressContextProvider } from './Screen/AddressContext'
 import Sidebar from './Screen/Sidebar'
 import Profile from './Screen/Profile'
 import { OrderProvider } from './Screen/OrderContext'
+import Store from './Screen/Store'
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,8 @@ const StackHome = () => {
       <Stack.Screen name="Sidebar" component={Sidebar} options={{ headerTitle: '' }} />
       <Stack.Screen name="Order" component={Order} options={{ headerTitle: '' }} />
       <Stack.Screen name="Profile" component={Profile} options={{ headerTitle: '' }} />
+      <Stack.Screen name="ร้านค้า" component={Store} options={{ headerTitle: '' }} />
+
     </Stack.Navigator>
   )
 }

@@ -52,16 +52,17 @@ const FirstRandom = (props) => {
                                     keyExtractor={(item, index) => index.toString()}
                                     renderItem={({ item }) => (
                                         <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
-                                            <Text>{item.addressName}</Text>
+                                            <Text style={{color: "#000"}}>{item.addressName}</Text>
                                         </TouchableOpacity>
                                     )}
                                 />
                                 <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
-                                    <Text>เพิ่มที่อยู่</Text>
+                                    <Text style={{color: "#000"}}>เพิ่มที่อยู่</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )}{showDropdown && (
+                    )}
+                    {/* {showDropdown && (
                         <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                             <View style={styles.dropdownContainer}>
                                 <FlatList
@@ -78,7 +79,7 @@ const FirstRandom = (props) => {
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    )}
+                    )} */}
 
                     <Text style={styles.orderText}>What would you like to order ?</Text>
                     <View style={styles.searchContainer}>
@@ -189,14 +190,12 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
         zIndex: 1,
         position: 'absolute',
-        top: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: "#f7e6ff",
-        width: 300,
+        width: 220,
         borderRadius: 10,
         borderWidth: 0.5
-    },
+      },
     deliveryText: {
         fontSize: 16,
         fontWeight: 'bold',
