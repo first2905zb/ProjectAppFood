@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView } from 'react-native'
+import { FlatList, StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Modal, KeyboardAvoidingView, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import CartContext from './CartContext';
 import OrderContext from './OrderContext';
@@ -72,43 +72,34 @@ const Cart = (props) => {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.orderList}>
-                <FlatList
-                    data={datas}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', padding: 8 }}>
-                            {/* <Text>{item.data.name}</Text> */}
-                            <View style={{ flexDirection: 'row' }}>
-                                <Image source={{ uri: item.data.image }} style={styles.img} />
-                                <View style={{ padding: 8, justifyContent: 'space-evenly', paddingLeft: 16 }}>
-                                    <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.data.name}</Text>
-                                    <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#6E0387" }}>{item.data.price} B</Text>
-                                    {/* {console.log(item.addonQuantitie    s)} */}
-                                    <FlatList
-                                        data={Object.entries(item.addonQuantities)}
-                                        keyExtractor={(addonItem, index) => `${addonItem[0]}_${index}`}
-                                        renderItem={({ item: [addon, quantity] }) => (
-                                            <View key={`${addon}_${quantity}`}>
-                                                <Text style={{ paddingLeft: 8 }}>- {addon}: {quantity} </Text>
-                                                {item.data.addons.map(addonItem => (
-                                                    addonItem.name === addon &&
-                                                    <Text key={`${addonItem.name}_${addonItem.price}`} style={{ paddingLeft: 24 }}>- {addonItem.price} B</Text>
-                                                ))}
-                                            </View>
-                                        )}
-                                    />
-                                </View>
-                            </View>
-                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: 100 }}>
-                                <View style={styles.quantityButtonAdd} onPress={() => handleQuantityChange(item.data.name, 1)}>
-                                    <Text style={{ color: "#ffffff" }}>{item.quantity}</Text>
-                                </View>
+                {datas.map(item => (
+                    <View key={item.data.name} style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: '#E0E0E0', padding: 8 }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <Image source={{ uri: item.data.image }} style={styles.img} />
+                            <View style={{ padding: 8, justifyContent: 'space-evenly', paddingLeft: 16 }}>
+                                <Text style={{ fontSize: 18, fontWeight: 'bold', color: 'black' }}>{item.data.name}</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', color: "#6E0387" }}>{item.data.price} B</Text>
+                                {Object.entries(item.addonQuantities).map(([addon, quantity]) => ( // Correct destructuring here
+                                    <View key={`${addon}_${quantity}`}>
+                                        <Text style={{ paddingLeft: 8 }}>- {addon}: {quantity} </Text>
+                                        {item.data.addons.map(addonItem => (
+                                            addonItem.name === addon &&
+                                            <Text key={`${addonItem.name}_${addonItem.price}`} style={{ paddingLeft: 24 }}>- {addonItem.price} B</Text>
+                                        ))}
+                                    </View>
+                                ))}
                             </View>
                         </View>
-                    )}
-                />
+                        <View style={{ flexDirection: 'row', justifyContent: 'flex-end', alignItems: 'center', width: 100 }}>
+                            <View style={styles.quantityButtonAdd} onPress={() => handleQuantityChange(item.data.name, 1)}>
+                                <Text style={{ color: "#ffffff" }}>{item.quantity}</Text>
+                            </View>
+                        </View>
+                    </View>
+                ))}
+
             </View>
             <KeyboardAvoidingView behavior="padding">
                 <View style={styles.containers}>
@@ -142,7 +133,7 @@ const Cart = (props) => {
                     <Text style={styles.monListItemText}>{total} Bath</Text>
                 </View>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center', marginBottom: 32 }}>
                 <TouchableOpacity style={styles.checkOut} onPress={() => checkOut()}>
                     <Text style={{ color: '#ffffff' }}>CHECKOUT</Text>
                 </TouchableOpacity>
@@ -161,7 +152,7 @@ const Cart = (props) => {
                 </TouchableOpacity>
             </Modal>
 
-        </View>
+        </ScrollView>
     );
 };
 

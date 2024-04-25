@@ -17,7 +17,7 @@ const Profile = () => {
         );
     }
     return (
-        <View style={{ flex: 1, padding: 16, backgroundColor: '#f7e6ff' }}>
+        <View style={{ flex: 1, padding: 16, backgroundColor: '#fff' }}>
             <View style={styles.imgCon}>
                 <Image source={require('../assets/profile.jpg')} style={styles.profile} />
             </View>

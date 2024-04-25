@@ -5,13 +5,13 @@ const AddressContext = createContext();
 export const AddressContextProvider = ({ children }) => {
   const [datas, setDatas] = useState([]);
 
-  const updateData = (newData) => {
+  const updateDataAdd = (newData) => {
     setDatas(prev => {
       return [...prev, newData]});
   };
 
   return (
-    <AddressContext.Provider value={{ datas, updateData }}>
+    <AddressContext.Provider value={{ datas, updateDataAdd }}>
       {children}
     </AddressContext.Provider>
   );

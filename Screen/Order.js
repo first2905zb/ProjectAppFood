@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 100,
     paddingHorizontal: 10,
+    borderColor: '#ddd'
   },
   button: {
     padding: 10,

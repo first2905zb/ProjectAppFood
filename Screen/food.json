@@ -433,6 +433,384 @@
                     "details": "ข้าวมันหอมๆ นุ่มละมุน"
                 }
             ]
-        }
+        },
+        {
+            "storeName": "Western Fusion Cafe",
+            "type": "western",
+            "bgimage": "https://admin.misstamchiak.com/wp-content/uploads/2018/07/Fat-Po-Featured-Collage-Scaled.jpg",
+            "storeDetails": [
+                {
+                    "id": 1,
+                    "name": "BBQ Pulled Pork Sandwich",
+                    "image": "https://saltpepperskillet.com/wp-content/uploads/pulled-pork-sandwiches-on-butcher-paper-horizontal.jpg",
+                    "price": "150",
+                    "addons": [
+                        {
+                            "name": "Add Coleslaw",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Upgrade to Sweet Potato Fries",
+                            "price": "30"
+                        }
+                    ],
+                    "details": "หมูฉีกตุ๋นในซอสบาร์บีคิว เสิร์ฟบนขนมปังปิ้งแสนอร่อย"
+                },
+                {
+                    "id": 2,
+                    "name": "Beef Chili Cheese Fries",
+                    "image": "https://realfood.tesco.com/media/images/Chilli-cheese-fries-LGH-4f48384d-ae26-4db2-b0a2-92dc5049d110-0-1400x919.jpg",
+                    "price": "120",
+                    "addons": [
+                        {
+                            "name": "Add Jalapenos",
+                            "price": "10"
+                        },
+                        {
+                            "name": "Extra Cheese",
+                            "price": "20"
+                        }
+                    ],
+                    "details": "มันฝรั่งทอดกรอบ ราดพริกเนื้อโฮมเมดและชีสเยิ้มๆ."
+                },
+                {
+                    "id": 3,
+                    "name": "Classic Cheeseburger",
+                    "image": "https://iambaker.net/wp-content/uploads/2019/05/cheeseburger-1.jpg",
+                    "price": "140",
+                    "addons": [
+                        {
+                            "name": "Add Bacon",
+                            "price": "30"
+                        },
+                        {
+                            "name": "Upgrade to Onion Rings",
+                            "price": "40"
+                        }
+                    ],
+                    "details": "เนื้อพายราดด้วยชีสละลาย ผักกาด มะเขือเทศ และหัวหอมบนขนมปังเมล็ดงา."
+                },
+                {
+                    "id": 4,
+                    "name": "Grilled Chicken Caesar Salad",
+                    "image": "https://www.afamilyfeast.com/wp-content/uploads/2012/12/Caesar-Salad-with-Grilled-Caesar-Chicken-1.jpg",
+                    "price": "130",
+                    "addons": [
+                        {
+                            "name": "Add Avocado",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Add Croutons",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "อกไก่ย่างเสิร์ฟบนผักกาดโรเมนกรอบ คลุกกับน้ำสลัดซีซาร์ และโรยหน้าด้วยพาร์เมซานชีส."
+                }
+            ]
+        },        
+        {
+            "storeName": "Sweet Bliss Dessert Bar",
+            "type": "dessert",
+            "bgimage": "https://storage.googleapis.com/edkl-production-storage/store/postimage/39178/image/%5B:original%2C%20:original%5D-2fe3fcf475176ca04caf30220bf5745d.jpg",
+            "storeDetails": [
+                {
+                    "id": 1,
+                    "name": "Chocolate Lava Cake",
+                    "image": "https://www.foodnetwork.com/content/dam/images/food/fullset/2014/2/19/1/WU0701H_Molten-Chocolate-Cakes_s4x3.jpg",
+                    "price": "120",
+                    "addons": [
+                        {
+                            "name": "Add Vanilla Ice Cream",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Chocolate Sauce",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "เค้กช็อคโกแลตเนื้อหนึบ ไส้ทะลัก."
+                },
+                {
+                    "id": 2,
+                    "name": "New York Cheesecake",
+                    "image": "https://www.browneyedbaker.com/wp-content/uploads/2021/10/new-york-cheesecake-21-square.jpg",
+                    "price": "100",
+                    "addons": [
+                        {
+                            "name": "Add Strawberry Sauce",
+                            "price": "15"
+                        },
+                        {
+                            "name": "Extra Whipped Cream",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "ชีสเค้กครีมเข้มข้นพร้อมแครกเกอร์เกรแฮม."
+                },
+                {
+                    "id": 3,
+                    "name": "Mixed Berry Pavlova",
+                    "image": "https://driscolls.imgix.net/-/media/assets/recipes/mixed-berry-pavlova.ashx",
+                    "price": "150",
+                    "addons": [
+                        {
+                            "name": "Add Lemon Curd",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Fresh Berries",
+                            "price": "30"
+                        }
+                    ],
+                    "details": "ของหวานเมอแรงค์เนื้อบางเบา ราดด้วยวิปครีมและเบอร์รี่รวม."
+                },
+                {
+                    "id": 4,
+                    "name": "Tiramisu",
+                    "image": "https://bakeplaysmile.com/wp-content/uploads/2022/06/tiramisu-square.jpg",
+                    "price": "130",
+                    "addons": [
+                        {
+                            "name": "Add Amaretto",
+                            "price": "30"
+                        },
+                        {
+                            "name": "Extra Cocoa Powder",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "ของหวานอิตาเลียนคลาสสิก ที่ทำจากเลดี้ฟิงเกอร์แช่กาแฟและครีมมาสคาโปน."
+                }
+            ]
+        },        
+        {
+            "storeName": "Dragon Palace",
+            "type": "china",
+            "bgimage": "https://img.wongnai.com/p/1920x0/2017/11/07/fc0b3bd42be34cd0878df8f2adc2536b.jpg",
+            "storeDetails": [
+                {
+                    "id": 1,
+                    "name": "Peking Duck",
+                    "image": "https://www.unileverfoodsolutions.co.id/dam/ufs-id/recipes/Peking%20Duck.jpg",
+                    "price": "250",
+                    "addons": [
+                        {
+                            "name": "Add Pancakes",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Hoisin Sauce",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "เป็ดย่างหนังกรอบ เสิร์ฟพร้อมแพนเค้ก แตงกวา และซอสฮอยซิน."
+                },
+                {
+                    "id": 2,
+                    "name": "Kung Pao Chicken",
+                    "image": "https://www.seriouseats.com/thmb/AaMf6tliWc3jh0R-9KLiJG5fzZo=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/__opt__aboutcom__coeus__resources__content_migration__serious_eats__seriouseats.com__2014__07__2021-02-12-Take-Out-Kung-Pao-Chicken-MHOM-11-c46f6c06713c45c5a287ddbf08779d04.jpg",
+                    "price": "150",
+                    "addons": [
+                        {
+                            "name": "Add Peanuts",
+                            "price": "10"
+                        },
+                        {
+                            "name": "Extra Spicy",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "ไก่ผัดกับถั่วลิสงและพริกในซอสเผ็ด."
+                },
+                {
+                    "id": 3,
+                    "name": "Szechuan Beef",
+                    "image": "https://embed.widencdn.net/img/beef/xu6owwuuep/exact/szechuan-beef-stir-fry.tif?keep=c&u=7fueml",
+                    "price": "180",
+                    "addons": [
+                        {
+                            "name": "Add Bell Peppers",
+                            "price": "15"
+                        },
+                        {
+                            "name": "Extra Szechuan Sauce",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "เนื้อชิ้นนุ่มผัดกับผักในซอสเสฉวนรสเผ็ดและมีกลิ่นหอม."
+                },
+                {
+                    "id": 4,
+                    "name": "Dim Sum Platter",
+                    "image": "https://cdn.tatlerasia.com/asiatatler/i/ph/2020/08/17152020-xiu-dimsum-platter-top-shot_cover_2000x1333.jpg",
+                    "price": "200",
+                    "addons": [
+                        {
+                            "name": "Add Steamed Buns",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Dumplings",
+                            "price": "30"
+                        }
+                    ],
+                    "details": "เกี๊ยวนานาชนิดและซาลาเปา เสิร์ฟพร้อมน้ำจิ้ม."
+                }
+            ]
+        },        
+        {
+            "storeName": "Seoul Kitchen",
+            "type": "korea",
+            "bgimage": "https://sethlui.com/wp-content/uploads/2019/01/seoul-kitchen-online-1-800x533.jpg",
+            "storeDetails": [
+                {
+                    "id": 1,
+                    "name": "Bibimbap",
+                    "image": "https://upload.wikimedia.org/wikipedia/commons/4/44/Dolsot-bibimbap.jpg",
+                    "price": "180",
+                    "addons": [
+                        {
+                            "name": "Add Fried Egg",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Kimchi",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "ข้าวผสมเกาหลีแบบดั้งเดิมพร้อมผักนานาชนิด เนื้อสัตว์ และซอสโคชูจังรสเผ็ด."
+                },
+                {
+                    "id": 2,
+                    "name": "Kimchi Jjigae",
+                    "image": "https://www.beyondkimchee.com/wp-content/uploads/2022/04/Kimchi-Jjigae-thumbnail.jpg",
+                    "price": "150",
+                    "addons": [
+                        {
+                            "name": "Add Tofu",
+                            "price": "15"
+                        },
+                        {
+                            "name": "Extra Pork Belly",
+                            "price": "30"
+                        }
+                    ],
+                    "details": "สตูว์รสเผ็ดร้อนที่ทำจากกิมจิ เต้าหู้ หมู และส่วนผสมอื่นๆ."
+                },
+                {
+                    "id": 3,
+                    "name": "Bulgogi",
+                    "image": "https://static01.nyt.com/images/2023/11/14/multimedia/JM-Bulgogi-qmfj/JM-Bulgogi-qmfj-superJumbo.jpg",
+                    "price": "200",
+                    "addons": [
+                        {
+                            "name": "Add Mushrooms",
+                            "price": "20"
+                        },
+                        {
+                            "name": "Extra Rice",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "เนื้อหมักสไลซ์บางย่างจนสุก เสิร์ฟพร้อมข้าวและเครื่องเคียง."
+                },
+                {
+                    "id": 4,
+                    "name": "Japchae",
+                    "image": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2021/06/14/0/FNK_Japchae_H2_s4x3.jpg.rend.hgtvcom.616.462.suffix/1623679822091.jpeg",
+                    "price": "160",
+                    "addons": [
+                        {
+                            "name": "Add Shrimp",
+                            "price": "30"
+                        },
+                        {
+                            "name": "Extra Glass Noodles",
+                            "price": "20"
+                        }
+                    ],
+                    "details": "ผัดวุ้นเส้นใส่ผักและเนื้อสัตว์ ปรุงรสด้วยซีอิ๊วขาวและน้ำมันงา."
+                }
+            ]
+        },        
+        {
+            "storeName": "สวัสดีไทย",
+            "type": "thai",
+            "bgimage": "https://media-cdn.tripadvisor.com/media/photo-s/19/c9/43/8a/plat.jpg",
+            "storeDetails": [
+                {
+                    "id": 1,
+                    "name": "ผัดไทย",
+                    "image": "https://s.isanook.com/wo/0/ud/37/185369/food.jpg",
+                    "price": "150",
+                    "addons": [
+                        {
+                            "name": "เพิ่มกุ้ง",
+                            "price": "50"
+                        },
+                        {
+                            "name": "เพิ่มไข่",
+                            "price": "10"
+                        }
+                    ],
+                    "details": "เส้นหมี่ผัดไทยกับเนื้อหมู, กุ้ง, หรือไข่ และผักสด ด้วยรสชาติเผ็ดหวานเปรี้ยว"
+                },
+                {
+                    "id": 2,
+                    "name": "ต้มยำกุ้ง",
+                    "image": "https://d3h1lg3ksw6i6b.cloudfront.net/media/image/2023/04/24/5608757681874e1ea5df1aa41d5b2e3d_How_To_Make_Tom_Yam_Kung_The_Epitome_Of_Delicious_And_Nutritious_Thai_Cuisine3.jpg",
+                    "price": "180",
+                    "addons": [
+                        {
+                            "name": "เพิ่มเห็ด",
+                            "price": "20"
+                        },
+                        {
+                            "name": "เพิ่มไข่มัน",
+                            "price": "15"
+                        }
+                    ],
+                    "details": "ต้มยำกุ้งรสเปรี้ยว, หวาน, และเผ็ด มีกุ้ง, ตะไคร้, ใบมะกรูด, และเห็ด"
+                },
+                {
+                    "id": 3,
+                    "name": "ข้าวผัดกระเทียม",
+                    "image": "https://img.wongnai.com/p/1920x0/2023/04/13/0a96a86c24f9446f9fc4493f3b4d470a.jpg",
+                    "price": "120",
+                    "addons": [
+                        {
+                            "name": "เพิ่มไก่",
+                            "price": "50"
+                        },
+                        {
+                            "name": "เพิ่มกุ้ง",
+                            "price": "60"
+                        }
+                    ],
+                    "details": "ข้าวผัดกระเทียมทรงเครื่องรส มีกระเทียม, น้ำมัน, และเครื่องปรุงรสต่างๆ"
+                },
+                {
+                    "id": 4,
+                    "name": "ส้มตำ",
+                    "image": "https://www.unileverfoodsolutions.co.th/th/chef-inspiration/simple-tips-for-great-flavour/somtum-green-papaya-salad-recipes/jcr:content/parsys/content-aside-footer/tipsandadvice/image.img.jpg/1695118621402.jpg",
+                    "price": "100",
+                    "addons": [
+                        {
+                            "name": "เพิ่มปูนิ่ม",
+                            "price": "30"
+                        },
+                        {
+                            "name": "เพิ่มหมูสับ",
+                            "price": "20"
+                        }
+                    ],
+                    "details": "ส้มตำไทยทรงเครื่องรส มีมะม่วง, ถั่วลิสง, ถั่วขาว, มะนาว, และพริกขี้หนู"
+                }
+            ]
+        }        
+        
+
+
     ]
 }

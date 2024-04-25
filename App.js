@@ -39,15 +39,14 @@ const StackHome = () => {
       <Stack.Screen name="Order" component={Order} options={{ headerTitle: '' }} />
       <Stack.Screen name="Profile" component={Profile} options={{ headerTitle: '' }} />
       <Stack.Screen name="ร้านค้า" component={Store} options={{ headerTitle: '' }} />
-
     </Stack.Navigator>
   )
 }
 
 const App = () => {
   return (
-    <OrderProvider>
-      <AddressContextProvider>
+    <AddressContextProvider>
+      <OrderProvider>
         <CartProvider>
           <NavigationContainer>
             <Tab.Navigator>
@@ -87,8 +86,8 @@ const App = () => {
             </Tab.Navigator>
           </NavigationContainer>
         </CartProvider>
-      </AddressContextProvider>
-    </OrderProvider>
+      </OrderProvider>
+    </AddressContextProvider>
   )
 }
 

@@ -1,6 +1,7 @@
 import {
     StyleSheet, Text, View, TouchableOpacity, ImageBackground, FlatList, SafeAreaView,
-    KeyboardAvoidingView, TextInput, Image
+    KeyboardAvoidingView, TextInput, Image,
+    ScrollView
 } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import AddressContext from './AddressContext';
@@ -34,7 +35,7 @@ const Store = (props) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.container}>
             <KeyboardAvoidingView
                 style={styles.container}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -91,7 +92,16 @@ const Store = (props) => {
                             </View>
                         </View>
                     </View>
-                    <FlatList
+                    {data.map(item => (
+                        <TouchableOpacity key={item.storeName} style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                            <ImageBackground source={{ uri: item.bgimage }} style={styles.popularImage}>
+                                <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                                <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                                <Text style={styles.popularSubText}>{item.storeName}</Text>
+                            </ImageBackground>
+                        </TouchableOpacity>
+                    ))}
+                    {/* <FlatList
                         data={data}
                         keyExtractor={(item) => item.storeName}
                         renderItem={({ item }) => (
@@ -103,10 +113,10 @@ const Store = (props) => {
                                 </ImageBackground>
                             </TouchableOpacity>
                         )}
-                    />
+                    /> */}
                 </View>
             </KeyboardAvoidingView>
-        </SafeAreaView>
+        </ScrollView>
     )
 }
 

@@ -7,6 +7,7 @@ import {
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import AddressContext from './AddressContext';
+import { ListItem } from '@rneui/base';
 
 const urlAPI = "https://first2905zb.github.io/API/food.json";
 
@@ -21,11 +22,7 @@ const HomeScreen = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [fullData, setFullData] = useState([]);
   const { datas } = useContext(AddressContext)
-
-  // console.log(datas)
-
-  // const loName = props.route.params.addNew.addressName;
-  // console.log(props.route.params);
+  const [fulldatas, setFulldatas] = useState([]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,6 +38,7 @@ const HomeScreen = (props) => {
         setData(data.result);
         // console.log(data)
         setFullData(data.result);
+        setFulldatas(data.result);
         setIsLoading(false);
       })
       .catch(error => {
@@ -74,106 +72,228 @@ const HomeScreen = (props) => {
     setLocations(location);
     setShowDropdown(false);
   };
+  // console.log(fulldatas)
 
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
+    <ScrollView style={styles.container}>
+      {/* <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={100} // Adjust this value as needed
-      >
-        <View style={styles.content}>
-          <View style={styles.header}>
-            <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
-              <Text style={styles.deliveryText}>Delivery to ▼</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
-              <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.dropdownText}>{locations}</Text>
-
-          {showDropdown && (
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <View style={styles.dropdownContainer}>
-                <FlatList
-                  data={datas}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity onPress={() => handleDropdownSelect(item.addressName)}>
-                      <Text style={{color: "#000"}}>{item.addressName}</Text>
-                    </TouchableOpacity>
-                  )}
-                />
-                <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
-                  <Text style={{color: "#000"}}>เพิ่มที่อยู่</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-
-          <Text style={styles.orderText}>What would you like to order ?</Text>
-          <View style={styles.searchContainer}>
-            <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
-              <TextInput
-                placeholder="🔍 ค้าหาร้านค้า..."
-                style={styles.searchInput}
-                autoCapitalize='none'
-                clearButtonMode='always'
-                autoCorrect={false}
-                value={searchQuery}
-                onChangeText={(query) => handleSearch(query)}
-                width={300}
-              />
-              <View style={{ top: -5, left: -5 }}>
-                <TouchableOpacity onPress={() => props.navigation.navigate('Cart')}>
-                  <Icon name="shopping-cart" size={45} />
-                </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.buttonContainer}>
-              <TouchableOpacity style={styles.shotcut}>
-                <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
-                <Text style={styles.buttonText}>สั่งอาหาร</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { props.navigation.navigate('Random', { data, locations }); }}>
-                <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
-                <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={[styles.shotcut, styles.shadow]}>
-                <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
-                <Text style={[styles.buttonText, { color: 'gray' }]}>เก็บโค้ด</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
-            <Text style={styles.popularButtonTopText}>ร้านยอดนิยม</Text>
-            <TouchableOpacity onPress={() => props.navigation.navigate('ร้านค้า', { data, locations })}>
-              <Text style={styles.viewAllText}>View All ▼</Text>
-            </TouchableOpacity>
-          </View>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.popularContainer}>
-            {data.map((item, index) => (
-              <TouchableOpacity key={index} style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
-                <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
-                <Text style={styles.popularButtonText}>{item.storeName}</Text>
-                <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
-                <Text style={styles.popularSubText}>{item.storeName}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+      > */}
+      <View style={styles.content}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => setShowDropdown(!showDropdown)}>
+            <Text style={styles.deliveryText}>ควยหมา ▼</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.profileContainer} onPress={() => props.navigation.navigate('Sidebar')}>
+            <ImageBackground source={require('../assets/profile.jpg')} style={styles.profileImage} />
+          </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        <Text style={styles.dropdownText}>{locations}</Text>
+
+        {showDropdown && (
+          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={styles.dropdownContainer}>
+              {datas.map((item, index) => (
+                <TouchableOpacity key={index.toString()} onPress={() => handleDropdownSelect(item.addressName)}>
+                  <Text style={{ color: "#000" }}>{item.addressName}</Text>
+                </TouchableOpacity>
+              ))}
+              <TouchableOpacity onPress={() => props.navigation.navigate("Address")}>
+                <Text style={{ color: "#000" }}>เพิ่มที่อยู่</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        <Text style={styles.orderText}>What would you like to order ?</Text>
+        <View style={styles.searchContainer}>
+          <View style={{ flexDirection: "row", justifyContent: 'space-between', alignItems: 'center' }}>
+            <TextInput
+              placeholder="🔍 ค้าหาร้านค้า..."
+              style={styles.searchInput}
+              autoCapitalize='none'
+              clearButtonMode='always'
+              autoCorrect={false}
+              value={searchQuery}
+              onChangeText={(query) => handleSearch(query)}
+              width={300}
+            />
+            <View style={{ top: -5, left: -5 }}>
+              <TouchableOpacity onPress={() => props.navigation.navigate('Cart')}>
+                <Icon name="shopping-cart" size={45} />
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity style={styles.shotcut}>
+              <Image source={require('../assets/อาหาร1.png')} style={styles.buttonImage} />
+              <Text style={styles.buttonText}>สั่งอาหาร</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.shotcut, styles.shadow]} onPress={() => { props.navigation.navigate('Random', { data, locations }); }}>
+              <Image source={require('../assets/random1.png')} style={styles.buttonImage} />
+              <Text style={[styles.buttonText, { color: 'gray' }]}>สุ่มอาหาร</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.shotcut, styles.shadow]}>
+              <Image source={require('../assets/code1.png')} style={styles.buttonImage} />
+              <Text style={[styles.buttonText, { color: 'gray' }]}>เก็บโค้ด</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านทั้งหมด</Text>
+          <TouchableOpacity onPress={() => props.navigation.navigate('ร้านค้า', { data, locations })}>
+            <Text style={styles.viewAllText}>View All ▼</Text>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          horizontal
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านอาหารไทย</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'thai')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านอาหารญี่ปุ่น</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'japan')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านอาหารเกาหลี</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'korea')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านอาหารจีน</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'china')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านอาหารเวสเทิร์น</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'western')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+        <View style={{ flexDirection: "row", marginTop: 30, justifyContent: 'space-between' }}>
+          <Text style={styles.popularButtonTopText}>ร้านของหวาน</Text>
+        </View>
+        <FlatList
+          horizontal
+          data={fulldatas.filter(item => item.type === 'dessert')}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <ListItem>
+              <ListItem.Content>
+                <TouchableOpacity style={styles.popularButton} onPress={() => { props.navigation.navigate('Menu', { item }); }}>
+                  <Image source={{ uri: item.bgimage }} style={styles.popularImage} />
+                  <Text style={styles.popularButtonText}>{item.storeName}</Text>
+                  <Text style={styles.popularSub1Text}>⛟ Free delivery ⏱︎ 10-15 min</Text>
+                  <Text style={styles.popularSubText}>{item.storeName}</Text>
+                </TouchableOpacity>
+              </ListItem.Content>
+            </ListItem>
+          )}
+        />
+      </View>
+      {/* </KeyboardAvoidingView> */}
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff'
   },
   content: {
     flex: 1,
